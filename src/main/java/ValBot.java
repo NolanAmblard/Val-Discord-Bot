@@ -4,6 +4,8 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import java.io.*;
+import java.util.StringTokenizer;
 
 public class ValBot extends ListenerAdapter {
 
@@ -21,5 +23,48 @@ public class ValBot extends ListenerAdapter {
         if (content.equals("Who is Val")) {
             channel.sendMessage("Mikey Z").queue();
         }
+
+        try {
+            if (content.substring(0, 10).toLowerCase().equals("-calculate")) {
+                String equation = content.substring(11);
+                StringTokenizer token = new StringTokenizer(equation);
+
+                double num1 = Integer.parseInt(token.nextToken());
+                String operator = token.nextToken();
+                double num2 = Integer.parseInt(token.nextToken());
+
+                channel.sendMessage("" + Calculate((double) num1, operator, (double) num2)).queue();
+            }
+        }
+        catch (Exception e) {
+            channel.sendMessage("The operation includes invalid symbols.");
+        }
     }
+
+    public static double Calculate(double num1, String operator, double num2) {
+        double answer = 0;
+
+        if (operator.equals("+")) {
+            answer = num1 + num2;
+        }
+        else if (operator.equals("-")) {
+            answer = num1 - num2;
+        }
+        else if (operator.equals("*")) {
+            answer = num1 * num2;
+        }
+        else if (operator.equals("/")) {
+            answer = num1 / num2;
+        }
+        else if (operator.equals("%")) {
+            answer = num1 % num2;
+        }
+        else if (operator.equals("^")) {
+            answer = Math.pow(num1, num2);
+        }
+
+        return answer;
+    }
+
+
 }
