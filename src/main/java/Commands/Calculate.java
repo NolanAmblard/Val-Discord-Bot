@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.util.*;
-//import java.util.StringTokenizer;
 
 public class Calculate implements Commands {
 
