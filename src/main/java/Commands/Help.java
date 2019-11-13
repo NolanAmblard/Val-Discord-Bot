@@ -12,11 +12,24 @@ public class Help implements Commands {
     public void execute(List<String> args, MessageReceivedEvent event) {
             EmbedBuilder eb = new EmbedBuilder();
             eb.setTitle("Moderator Commands");
-            eb.addField("-ban @member [optional reason]", "This command bans a user from the server.", true);
-            eb.addField("-tempban @member (duration) [optional reason]", "This command bans a user from the server for a set time.", true);
-            eb.addField("-kick @member [optional reason]", "This command kicks a user from the server.", true);
+            eb.addField("-ban @member [optional reason]", "This command bans a user from the server.", false);
+            eb.addField("-tempban @member (duration) [optional reason]", "This command bans a user from the server for a set time.", false);
+            eb.addField("-unban @member", "This command unbans a user.", false);
+            eb.addField("-kick @member [optional reason]", "This command kicks a user from the server.", false);
+            eb.addField("-clear (number messages)", "This command clears 'n' number of messages from a channel.", false);
+            eb.addField("-mute @member [optional reason]", "This command mutes a user.", false);
+            eb.addField("-tempmute @member [optional reason]", "This command mutes a user for a set time.", false);
+            eb.addField("-unmute @member", "This command unmutes a user.", false);
+            eb.addField("-warn @member [optional reason]", "This command warns a user.", false);
+            eb.addField("-clear (number messages)", "This command clears 'n' number of messages from a channel.", false);
+            eb.addField("-serverinfo", "This command sends information about the server to a channel.", false);
             eb.setColor(Color.BLUE);
-            event.getChannel().sendMessage(eb.build()).queue();
+            e.getChannel().sendMessage(eb.build()).queue();
+
+            eb.setTitle("Math Commands");
+            eb.addField("-calculate (operation)", "This command calculates what an expression evaluates out to be.", false);
+            eb.setColor(Color.BLUE);
+            e.getChannel().sendMessage(eb.build()).queue();
     }
 
     @Override
