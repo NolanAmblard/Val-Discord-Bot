@@ -12,10 +12,11 @@ public class CommandManager {
     private Map<String, Commands> commands = new HashMap<>();
 
     CommandManager() {
-        //TODO: Nolan is working on this
-        //addCommand(new HelpCommand(this));
 
+        //LawrenceZhang
         addCommand(new Calculate());
+        //NolanAmblard
+        addCommand(new Help());
     }
 
     private void addCommand(Commands command) {
