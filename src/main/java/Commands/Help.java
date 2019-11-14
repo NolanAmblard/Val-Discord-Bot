@@ -24,7 +24,7 @@ public class Help implements Commands {
             eb.addField("-clear (number messages)", "This command clears 'n' number of messages from a channel.", false);
             eb.addField("-serverinfo", "This command sends information about the server to a channel.", false);
             eb.setColor(Color.BLUE);
-            e.getChannel().sendMessage(eb.build()).queue();
+            event.getChannel().sendMessage(eb.build()).queue();
         
             eb.setTitle("User Commands");
             eb.addField("-userinfo [optional @member] (no @member = info about person who sent it)", "This command returns info about the user.", false);
@@ -32,7 +32,7 @@ public class Help implements Commands {
             eb.setTitle("Math Commands");
             eb.addField("-calculate (operation)", "This command calculates what an expression evaluates out to be.", false);
             eb.setColor(Color.BLUE);
-            e.getChannel().sendMessage(eb.build()).queue();
+            event.getChannel().sendMessage(eb.build()).queue();
     }
 
     @Override
