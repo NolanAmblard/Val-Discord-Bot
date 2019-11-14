@@ -9,12 +9,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class Help implements Commands {
+public class UserInfo implements Commands {
 
     @Override
     public void execute(List<String> args, MessageReceivedEvent event) {
         String [] message = event.getMessage().getContentRaw().split(" ");
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         if(message.length == 1 && message[0].equalsIgnoreCase("-userinfo") ) {
             //event.getChannel().sendMessage
