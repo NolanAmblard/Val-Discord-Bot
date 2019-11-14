@@ -17,7 +17,7 @@ public class Help implements Commands {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
         Date date = new Date();
         if(message.length == 1 && message[0].equalsIgnoreCase("-userinfo") ) {
-            event.getChannel().sendMessage
+            //event.getChannel().sendMessage
         }
         else if(message.length == 2 && message[0].equalsIgnoreCase("-userinfo")){
             String userName = message[1];
