@@ -1,3 +1,5 @@
+//Created by Raunakk Chandhoke
+//This class defines what a function is and includes key functions for use in derivatives
 public class Function {
     String var;
     String expression;
