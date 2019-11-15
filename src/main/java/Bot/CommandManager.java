@@ -17,6 +17,7 @@ public class CommandManager {
         addCommand(new Calculate());
         //NolanAmblard
         addCommand(new Help());
+        addCommand(new UserInfo());
     }
 
     private void addCommand(Commands command) {
