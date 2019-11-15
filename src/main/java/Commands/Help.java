@@ -23,19 +23,19 @@ public class Help implements Commands {
             eb.addField("-warn @member [optional reason]", "This command warns a user.", false);
             eb.addField("-clear (number messages)", "This command clears 'n' number of messages from a channel.", false);
             eb.addField("-serverinfo", "This command sends information about the server to a channel.", false);
-            eb.setColor(Color.BLUE);
+            eb.setColor(Color.CYAN);
             event.getChannel().sendMessage(eb.build()).queue();
             eb.clearFields();
             eb.setTitle("User Commands");
             eb.addField("-userinfo [optional @member] (no @member = info about person who sent it)", "This command returns info about the user.", false);
-            eb.setColor(Color.BLUE);
+            eb.setColor(Color.CYAN);
             event.getChannel().sendMessage(eb.build()).queue();
 
             eb.clearFields();
 
             eb.setTitle("Math Commands");
             eb.addField("-calculate (operation)", "This command calculates what an expression evaluates out to be.", false);
-            eb.setColor(Color.BLUE);
+            eb.setColor(Color.CYAN);
             event.getChannel().sendMessage(eb.build()).queue();
     }
 
