@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class Help implements Commands {
+public class UserInfo implements Commands {
 
     @Override
     public void execute(List<String> args, MessageReceivedEvent event) {
