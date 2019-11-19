@@ -96,6 +96,27 @@ public class FunctionExpression {
         return sum;
     }
 
+    public static FunctionExpression sum(Function x, double y) {
+        FunctionExpression sum = new FunctionExpression(new Function("+"));
+        sum.addLeft(new FunctionExpression(x));
+        sum.addRight(new FunctionExpression(new Function("const", "/", y)));
+        return sum;
+    }
+
+    public static FunctionExpression sum(double x, Function y) {
+        FunctionExpression sum = new FunctionExpression(new Function("+"));
+        sum.addRight(new FunctionExpression(x));
+        sum.addLeft(new FunctionExpression(new Function("const", "/", y)));
+        return sum;
+    }
+
+    public static FunctionExpression sum(double x, FunctionExpression y) {
+        FunctionExpression sum = new FunctionExpression(new Function("+"));
+        sum.addRight(y);
+        sum.addLeft(new FunctionExpression(new Function("const", "/", y)));
+        return sum;
+    }
+
     public static FunctionExpression sum(double x, double y) {
         FunctionExpression sum = new FunctionExpression(new Function("+"));
         sum.addLeft(new FunctionExpression(new Function("const", "/", x)));
@@ -166,5 +187,193 @@ public class FunctionExpression {
         return sub;
     }
 
+    public static FunctionExpression div(Function x, Function y) {
+        FunctionExpression div = new FunctionExpression(new Function("/"));
+        div.addLeft(new FunctionExpression(x));
+        div.addRight(new FunctionExpression(y));
+        return div;
+    }
+
+    public static FunctionExpression div(FunctionExpression x, FunctionExpression y) {
+        FunctionExpression div = new FunctionExpression(new Function("/"));
+        div.addLeft(x);
+        div.addRight(y);
+        return div;
+    }
+
+    public static FunctionExpression div(double x, double y) {
+        FunctionExpression div = new FunctionExpression(new Function("/"));
+        div.addLeft(new FunctionExpression(new Function("const", "/", x)));
+        div.addRight(new FunctionExpression(new Function("const", "/", y)));
+        return div;
+    }
+
+    public static FunctionExpression div(Function x, FunctionExpression y) {
+        FunctionExpression div = new FunctionExpression(new Function("/"));
+        div.addLeft(new FunctionExpression(x));
+        div.addRight(y);
+        return div;
+    }
+
+    public static FunctionExpression div(FunctionExpression x, Function y) {
+        FunctionExpression div = new FunctionExpression(new Function("/"));
+        div.addLeft(x);
+        div.addRight(new FunctionExpression(y));
+        return div;
+    }
+
+    public static FunctionExpression div(double x, Function y) {
+        FunctionExpression div = new FunctionExpression(new Function("/"));
+        div.addLeft(new FunctionExpression(new Function("const", "/", x)));
+        div.addRight(new FunctionExpression(y));
+        return div;
+    }
+
+    public static FunctionExpression div(double x, FunctionExpression y) {
+        FunctionExpression div = new FunctionExpression(new Function("/"));
+        div.addLeft(new FunctionExpression(new Function("const", "/", x)));
+        div.addRight(y);
+        return div;
+    }
+
+    public static FunctionExpression div(Function x, double y) {
+        FunctionExpression div = new FunctionExpression(new Function("/"));
+        div.addLeft(new FunctionExpression(x));
+        div.addRight(new FunctionExpression(new Function("const", "/", y)));
+        return div;
+    }
+
+    public static FunctionExpression div(FunctionExpression x, double y) {
+        FunctionExpression div = new FunctionExpression(new Function("/"));
+        div.addLeft(x);
+        div.addRight(new FunctionExpression(new Function("const", "/", y)));
+        return div;
+    }
+
+    public static FunctionExpression product(Function x, Function y) {
+        FunctionExpression prod = new FunctionExpression(new Function("*"));
+        prod.addLeft(new FunctionExpression(x));
+        prod.addRight(new FunctionExpression(y));
+        return prod;
+    }
+
+    public static FunctionExpression product(FunctionExpression x, FunctionExpression y) {
+        FunctionExpression prod = new FunctionExpression(new Function("*"));
+        prod.addLeft(x);
+        prod.addRight(y);
+        return prod;
+    }
+
+    public static FunctionExpression product(double x, double y) {
+        FunctionExpression prod = new FunctionExpression(new Function("*"));
+        prod.addLeft(new FunctionExpression(new Function("const", "/", x)));
+        prod.addRight(new FunctionExpression(new Function("const", "/", y)));
+        return prod;
+    }
+
+    public static FunctionExpression product(Function x, FunctionExpression y) {
+        FunctionExpression prod = new FunctionExpression(new Function("*"));
+        prod.addLeft(new FunctionExpression(x));
+        prod.addRight(y);
+        return prod;
+    }
+
+    public static FunctionExpression product(FunctionExpression x, Function y) {
+        FunctionExpression prod = new FunctionExpression(new Function("*"));
+        prod.addLeft(x);
+        prod.addRight(new FunctionExpression(y));
+        return prod;
+    }
+
+    public static FunctionExpression product(double x, Function y) {
+        FunctionExpression prod = new FunctionExpression(new Function("*"));
+        prod.addLeft(new FunctionExpression(new Function("const", "/", x)));
+        prod.addRight(new FunctionExpression(y));
+        return product;
+    }
+
+    public static FunctionExpression product(double x, FunctionExpression y) {
+        FunctionExpression prod = new FunctionExpression(new Function("*"));
+        prod.addLeft(new FunctionExpression(new Function("const", "/", x)));
+        prod.addRight(y);
+        return prod;
+    }
+
+    public static FunctionExpression product(Function x, double y) {
+        FunctionExpression prod = new FunctionExpression(new Function("*"));
+        prod.addLeft(new FunctionExpression(x));
+        prod.addRight(new FunctionExpression(new Function("const", "/", y)));
+        return prod;
+    }
+
+    public static FunctionExpression product(FunctionExpression x, double y) {
+        FunctionExpression prod = new FunctionExpression(new Function("*"));
+        prod.addLeft(x);
+        prod.addRight(new FunctionExpression(new Function("const", "/", y)));
+        return prod;
+    }
+
+    public static FunctionExpression exp(Function x, Function y) {
+        FunctionExpression exp = new FunctionExpression(new Function("^"));
+        exp.addLeft(new FunctionExpression(x));
+        exp.addRight(new FunctionExpression(y));
+        return exp;
+    }
+
+    public static FunctionExpression exp(FunctionExpression x, FunctionExpression y) {
+        FunctionExpression exp = new FunctionExpression(new Function("^"));
+        exp.addLeft(x);
+        exp.addRight(y);
+        return exp;
+    }
+
+    public static FunctionExpression exp(double x, double y) {
+        FunctionExpression exp = new FunctionExpression(new Function("^"));
+        exp.addLeft(new FunctionExpression(new Function("const", "/", x)));
+        exp.addRight(new FunctionExpression(new Function("const", "/", y)));
+        return exp;
+    }
+
+    public static FunctionExpression exp(Function x, FunctionExpression y) {
+        FunctionExpression exp = new FunctionExpression(new Function("^"));
+        exp.addLeft(new FunctionExpression(x));
+        exp.addRight(y);
+        return exp;
+    }
+
+    public static FunctionExpression exp(FunctionExpression x, Function y) {
+        FunctionExpression exp = new FunctionExpression(new Function("^"));
+        exp.addLeft(x);
+        exp.addRight(new FunctionExpression(y));
+        return exp;
+    }
+
+    public static FunctionExpression exp(double x, Function y) {
+        FunctionExpression exp = new FunctionExpression(new Function("^"));
+        exp.addLeft(new FunctionExpression(new Function("const", "/", x)));
+        exp.addRight(new FunctionExpression(y));
+        return exp;
+    }
+
+    public static FunctionExpression exp(double x, FunctionExpression y) {
+        FunctionExpression exp = new FunctionExpression(new Function("^"));
+        exp.addLeft(new FunctionExpression(new Function("const", "/", x)));
+        exp.addRight(y);
+        return exp;
+    }
+
+    public static FunctionExpression exp(Function x, double y) {
+        FunctionExpression exp = new FunctionExpression(new Function("^"));
+        exp.addLeft(new FunctionExpression(x));
+        div.addRight(new FunctionExpression(new Function("const", "/", y)));
+        return exp;
+    }
+
+    public static FunctionExpression exp(FunctionExpression x, double y) {
+        FunctionExpression exp = new FunctionExpression(new Function("^"));
+        exp.addLeft(x);
+        exp.addRight(new FunctionExpression(new Function("const", "/", y)));
+        return exp;
+    }
 
 }
