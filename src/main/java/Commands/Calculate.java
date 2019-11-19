@@ -1,3 +1,4 @@
+//LawrenceZhang
 package Commands;
 
 import Bot.Commands;
@@ -25,7 +26,7 @@ public class Calculate implements Commands {
                 while (!operandFound && i < equation.length() - 1) {
                     try {
                         if (!equation.substring(i, i + 1).equals(".")) {
-                            int temp = Integer.parseInt(equation.substring(i, i + 1));
+                            double temp = Double.parseDouble(equation.substring(i, i + 1));
                         }
                     }
                     catch (NullPointerException | NumberFormatException e) {
@@ -37,16 +38,16 @@ public class Calculate implements Commands {
 
                 StringTokenizer token = new StringTokenizer(equation);
 
-                double num1 = Integer.parseInt(token.nextToken());
+                double num1 = Double.parseDouble(token.nextToken());
                 String operator = token.nextToken();
-                double num2 = Integer.parseInt(token.nextToken());
+                double num2 = Double.parseDouble(token.nextToken());
 
                 channel.sendMessage("" + calculate(num1, operator, num2)).queue();
             }
             else if (content.length > 2) {
-                double num1 = Integer.parseInt(content[1]);
+                double num1 = Double.parseDouble(content[1]);
                 String operator = content[2];
-                double num2 = Integer.parseInt(content[3]);
+                double num2 = Double.parseDouble(content[3]);
 
                 channel.sendMessage("" + calculate(num1, operator, num2)).queue();
             }
