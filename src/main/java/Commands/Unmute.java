@@ -12,15 +12,15 @@ public class Unmute implements Commands {
     public void execute(List<String> args, MessageReceivedEvent event) {
         String[] message = event.getMessage().getContentRaw().split(" ");
         if (message.length == 1) {
-            event.getChannel().sendMessage("Please include the person you want to unmute's tag.");
+            event.getChannel().sendMessage("Please include the person you want to unmute's tag.").queue();
         }
         if (message.length == 2) {
             String username = message[1];
-            event.getGuild().getMemberByTag(username).mute(false);
-            event.getChannel().sendMessage("User " + username + " has been unmuted.");
+            event.getGuild().getMemberByTag(username).mute(false).queue();
+            event.getChannel().sendMessage("User " + username + " has been unmuted.").queue();
         }
     }
-}
+
 
     @Override
     public String getKeyword() {
