@@ -376,4 +376,35 @@ public class FunctionExpression {
         return exp;
     }
 
+    //Does basic simplification of a specific part of an expression
+    public static FunctionExpression simplifyNode(FunctionExpression funcExp) {
+        if(funcExp == null)
+            return null;
+        if(funcExp.function.expression.equals("*")) {
+            if(funcExp.left.function.expression.equals("const") && funcExp.left.function.value == 1)
+                return funcExp.right;
+            if(funcExp.right.function.expression.equals("const") && funcExp.right.function.value == 1)
+                return funcExp.left;
+        }
+        if(funcExp.function.expression.equals("^")) {
+            if(funcExp.right.function.expression.equals("const") && funcExp.right.function.value == 1)
+                return funcExp.left;
+        }
+        if(funcExp.function.expression.equals("+") || funcExp.function.expression.equals("-")) {
+            if(funcExp.left.function.expression.equals("const") && funcExp.left.function.value == 0)
+                return funcExp.right;
+            if(funcExp.right.function.expression.equals("const") && funcExp.right.function.value == 0)
+                return funcExp.left;
+        }
+        return funcExp;
+    }
+    
+    //Simplifies the expression as a whole
+    public static FunctionExpression simplifyExpression(FunctionExpression funcExp) {
+        if(funcExp == null)
+            return null;
+        funcExp.left = simplifyExpression(funcExp.left);
+        funcExp.right = simplifyExpression(funcExp.right);
+        return simplifyNode(funcExp);
+    }
 }
