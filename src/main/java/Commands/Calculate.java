@@ -1,3 +1,4 @@
+//Lawrence Zhang
 package Commands;
 
 import Bot.Commands;
@@ -17,42 +18,23 @@ public class Calculate implements Commands {
 
         try {
             if (content.length == 2) {
-                String equation = content[1];
+                String expression = content[1];
 
-                boolean operandFound = false;
-                int i = 0;
-
-                while (!operandFound && i < equation.length() - 1) {
-                    try {
-                        if (!equation.substring(i, i + 1).equals(".")) {
-                            int temp = Integer.parseInt(equation.substring(i, i + 1));
-                        }
-                    }
-                    catch (NullPointerException | NumberFormatException e) {
-                        operandFound = true;
-                        equation = equation.substring(0, i) + " " + equation.substring(i, i + 1) + " " + equation.substring(i + 1);
-                    }
-                    i++;
-                }
-
-                StringTokenizer token = new StringTokenizer(equation);
-
-                double num1 = Integer.parseInt(token.nextToken());
-                String operator = token.nextToken();
-                double num2 = Integer.parseInt(token.nextToken());
-
-                channel.sendMessage("" + calculate(num1, operator, num2)).queue();
+                channel.sendMessage("" + expressionSolver(expression)).queue();
             }
             else if (content.length > 2) {
-                double num1 = Integer.parseInt(content[1]);
-                String operator = content[2];
-                double num2 = Integer.parseInt(content[3]);
+                StringBuilder expression = new StringBuilder();
 
-                channel.sendMessage("" + calculate(num1, operator, num2)).queue();
+                for (int i = 1; i < content.length; i++) {
+                    expression.append(content[i]);
+                }
+
+                channel.sendMessage("" + expressionSolver(expression.toString())).queue();
             }
         }
         catch (Exception e) {
             channel.sendMessage("The operation includes invalid symbols.").queue();
+            channel.sendMessage("The error received is: " + e.getMessage()).queue();
         }
     }
 
@@ -65,26 +47,130 @@ public class Calculate implements Commands {
         double answer = 0;
 
         switch (operator) {
+            case "^":
+                answer = Math.pow(num1, num2);
+                break;
+            case "%":
+                answer = num1 % num2;
+                break;
+            case "*":
+                answer = num1 * num2;
+                break;
+            case "/":
+                if (num2 != 0) {
+                    answer = num1 / num2;
+                }
+                break;
             case "+":
                 answer = num1 + num2;
                 break;
             case "-":
                 answer = num1 - num2;
                 break;
-            case "*":
-                answer = num1 * num2;
-                break;
-            case "/":
-                answer = num1 / num2;
-                break;
-            case "%":
-                answer = num1 % num2;
-                break;
-            case "^":
-                answer = Math.pow(num1, num2);
-                break;
         }
 
         return answer;
+    }
+
+    private static int orderOfOperations(String operator) {
+        switch (operator) {
+            case "(":
+            case ")":
+                return 0;
+            case "^":
+                return 1;
+            case "%":
+                return 2;
+            case "*":
+            case "/":
+                return 3;
+            case "+":
+            case "-":
+                return 4;
+        }
+
+        return -1;
+    }
+
+    private static double expressionSolver(String expression) {
+        String[] content = expression.split(" ");
+
+        StringBuilder expressionBuilder = new StringBuilder();
+
+        for (String s : content) {
+            expressionBuilder.append(s);
+        }
+
+        expression = expressionBuilder.toString();
+
+        expressionBuilder = new StringBuilder();
+
+        for (int i = 0; i < expression.length(); i++) {
+            if (i > 0) {
+                expressionBuilder.append(" ");
+            }
+
+            expressionBuilder.append(expression.charAt(i));
+        }
+
+        char[] characters = expressionBuilder.toString().toCharArray();
+
+        Stack<Double> numbers = new Stack<>();
+        Stack<Character> operators = new Stack<>();
+
+        for (int i = 0; i < characters.length; i++) {
+
+            if (characters[i] == ' ') {
+                continue;
+            }
+
+            if ((characters[i] == '.') || (characters[i] >= '0' && characters[i] <= '9')) {
+                StringBuilder temp = new StringBuilder();
+
+                while (i < characters.length && ((characters[i] == '.') || (characters[i] >= '0' && characters[i] <= '9'))) {
+                    temp.append(characters[i]);
+                    i += 2;
+                }
+
+                i -= 2;
+
+                numbers.push(Double.parseDouble(temp.toString()));
+            }
+            else if (characters[i] == '(') {
+                operators.push(characters[i]);
+            }
+            else if (characters[i] == ')') {
+                while (operators.peek() != '(') {
+                    char operator = operators.pop();
+                    double num2 = numbers.pop();
+                    double num1 = numbers.pop();
+
+                    numbers.push(calculate(num1, Character.toString(operator), num2));
+                }
+
+                operators.pop();
+            }
+            else if (Arrays.asList('^', '%', '*', '/', '+', '-').contains(characters[i])) {
+                while (!operators.isEmpty() && orderOfOperations(Character.toString(operators.peek())) >= orderOfOperations(Character.toString(characters[i]))) {
+                    char operator = operators.pop();
+                    double num2 = numbers.pop();
+                    double num1 = numbers.pop();
+
+                    numbers.push(calculate(num1, Character.toString(operator), num2));
+                }
+
+                operators.push(characters[i]);
+            }
+        }
+
+        while (!operators.isEmpty()) {
+            char operator = operators.pop();
+            double num2 = numbers.pop();
+            double num1 = numbers.pop();
+
+            numbers.push(calculate(num1, Character.toString(operator), num2));
+        }
+
+        return numbers.pop();
     }
 }
