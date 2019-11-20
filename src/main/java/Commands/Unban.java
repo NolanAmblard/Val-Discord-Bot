@@ -12,12 +12,12 @@ public class Unban implements Commands {
     public void execute(List<String> args, MessageReceivedEvent event) {
         String[] message = event.getMessage().getContentRaw().split(" ");
         if (message.length == 1) {
-            event.getChannel().sendMessage("Please include the person you want to unban's tag.");
+            event.getChannel().sendMessage("Please include the person you want to unban's tag.").queue();
         }
         if (message.length == 2) {
             String username = message[1];
-            event.getGuild().getMemberByTag(username).ban(0);
-            event.getChannel().sendMessage("User " + username + " has been unbanned.");
+            event.getGuild().getMemberByTag(username).ban(0).queue();
+            event.getChannel().sendMessage("User " + username + " has been unbanned.").queue();
         }
     }
 
