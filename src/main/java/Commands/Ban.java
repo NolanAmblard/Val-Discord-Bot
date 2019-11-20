@@ -17,13 +17,13 @@ public class Ban implements Commands {
         if (message.length == 2) {
             String username = message[1];
             event.getGuild().getMemberByTag(username).ban(54750).queue();
-            event.getChannel().sendMessage("User " + username + " has been banned.");
+            event.getChannel().sendMessage("User " + username + " has been banned.").queue();
         }
 
         if (message.length == 3) {
             String username = message[1];
             String reason = message[2];
-            event.getGuild().getMemberByTag(username).ban(54750, reason);
+            event.getGuild().getMemberByTag(username).ban(54750, reason).queue();
             event.getChannel().sendMessage("User " + username + " has been banned. Reason: " + reason).queue();
         }
     }
