@@ -17,7 +17,7 @@ public class Clear implements Commands {
     public void execute(List<String> args, MessageReceivedEvent event) {
         String[] message = event.getMessage().getContentRaw().split(" ");
         if (message.length == 1) {
-            event.getChannel().sendMessage("Enter a number of messages to clear after the -clear command `ex: -clear 5`");
+            event.getChannel().sendMessage("Enter a number of messages to clear after the -clear command `ex: -clear 5`").queue();
         }
         if (message.length == 2) {
             String numdel = message[1];
@@ -28,6 +28,7 @@ public class Clear implements Commands {
 
             msgs = history.retrievePast(Integer.parseInt(numdel)).complete();
             target.deleteMessages(msgs).queue();
+            event.getChannel().sendMessage(numdel + " messages have been cleared.").queue();
         }
     }
 
