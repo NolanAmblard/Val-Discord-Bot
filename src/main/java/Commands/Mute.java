@@ -26,8 +26,6 @@ public class Mute implements Commands {
             event.getGuild().getMemberByTag(username).mute(true).queue();
             event.getChannel().sendMessage("User " + username + " has been muted. Reason: " + reason).queue();
         }
-
-        }
     }
 
     @Override
