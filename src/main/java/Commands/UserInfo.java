@@ -35,14 +35,14 @@ public class UserInfo implements Commands {
             }
             else if(message.length == 2 && message[1].charAt(0) == '@'){
                 String userName = message[1];
-                User user = event.getGuild().getMemberByTag(userName).getUser();
+                User user = event.getMessage().getMentionedMembers().get(0).getUser();
                 String avatar = user.getAvatarUrl();
                 EmbedBuilder ae2 = new EmbedBuilder();
 
-                ae2.setTitle(event.getGuild().getMemberByTag(userName).getNickname() + "'s Profile");
+                ae2.setTitle(event.getGuild().getMember(user).getNickname() + "'s Profile");
                 ae2.setThumbnail(avatar);
                 ae2.addField("User name: ", userName, true);
-                ae2.addField("Online Status: ", event.getGuild().getMemberByTag(userName).getOnlineStatus().toString(), true);
+                ae2.addField("Online Status: ", event.getGuild().getMember(user).getOnlineStatus().toString(), true);
                 ae2.setFooter("Request was made at " + formatter.format(date), event.getGuild().getIconUrl());
                 ae2.setColor(Color.CYAN);
                 event.getChannel().sendMessage(ae2.build()).queue();
