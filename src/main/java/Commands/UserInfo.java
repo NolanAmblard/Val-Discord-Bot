@@ -41,7 +41,7 @@ public class UserInfo implements Commands {
 
                 ae2.setTitle(event.getGuild().getMember(user).getNickname() + "'s Profile");
                 ae2.setThumbnail(avatar);
-                ae2.addField("User name: ", user.getName(), true);
+                ae2.addField("User name: ", event.getMessage().getMentionedMembers().get(0).getNickname(), true);
                 ae2.addField("Online Status: ", event.getGuild().getMember(user).getOnlineStatus().toString(), true);
                 ae2.setFooter("Request was made at " + formatter.format(date), event.getGuild().getIconUrl());
                 ae2.setColor(Color.CYAN);
