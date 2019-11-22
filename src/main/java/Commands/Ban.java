@@ -18,14 +18,14 @@ public class Ban implements Commands {
         if (message.length == 2) {
             String username = message[1];
             event.getMessage().getMentionedMembers().get(0).ban(54750);
-            event.getChannel().sendMessage("User " + username + " has been banned.");
+            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been banned.");
         }
 
         if (message.length == 3) {
             String username = message[1];
             String reason = message[2];
             event.getMessage().getMentionedMembers().get(0).ban(54750, reason);
-            event.getChannel().sendMessage("User " + username + " has been banned. Reason: " + reason);
+            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been banned. Reason: " + reason);
         }
     }
 
