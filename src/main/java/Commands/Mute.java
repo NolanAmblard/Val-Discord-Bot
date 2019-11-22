@@ -16,14 +16,16 @@ public class Mute implements Commands {
         }
         if (message.length == 2) {
             String username = message[1];
-            event.getGuild().getMemberByTag(username).mute(true).queue();
+            User user = event.getMessage().getMentionedMembers().get(0).getUser();
+            event.getGuild().getMember(user).mute(true).queue();
             event.getChannel().sendMessage("User " + username + " has been muted.").queue();
         }
 
         if (message.length == 3) {
             String username = message[1];
             String reason = message[2];
-            event.getGuild().getMemberByTag(username).mute(true).queue();
+            User user = event.getMessage().getMentionedMembers().get(0).getUser();
+            event.getGuild().getMember(user).mute(true).queue();
             event.getChannel().sendMessage("User " + username + " has been muted. Reason: " + reason).queue();
         }
     }
