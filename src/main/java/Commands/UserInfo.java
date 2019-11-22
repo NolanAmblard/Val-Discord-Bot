@@ -33,7 +33,7 @@ public class UserInfo implements Commands {
                 ae1.setColor(Color.CYAN);
                 event.getChannel().sendMessage(ae1.build()).queue();
             }
-            else if(message.length == 2 && message[1].charAt(0) == '@'){
+            else if(message.length == 2) {
                 String userName = message[1];
                 User user = event.getMessage().getMentionedMembers().get(0).getUser();
                 String avatar = user.getAvatarUrl();
