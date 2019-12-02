@@ -144,5 +144,60 @@ public class Calculus {
         else if(!ifOperator(funcExp.function.expression))
             return out = derive(wrt, funcExp);
         return FunctionExpression.simplifyNode(output);
-    }    
+    }
+
+    //Adds derivatives of basic functions to a table by appending functions
+    public static FunctionExpression derive(String wrt, FunctionExpression funcExp) {
+        if(funcExp.function == null)
+            return null;
+        if(funcExp.function.compose == null && !(funcExp.function.variable.equals(wrt)))
+            return null;
+        FunctionExpression out = null;
+        if(funcExp.function.expression.equals("sin")) {
+            FunctionExpression temp = funcExp.copy();
+            temp.function.expression = "cos";
+            out = temp;
+        }
+        else if(funcExp.function.expression.equals("cos")) {
+            FunctionExpression temp = funcExp.copy();
+            temp.function.expression = "sin";
+            out = FunctionExpression.product(temp, -1.0);
+        }
+        else if(funcExp.function.expression.equals("ln")) {
+            FunctionExpression temp = funcExp.copy();
+            temp.function.expression = "" + funcExp.function.variable;
+            out = FunctionExpression.exp(temp, -1.0);
+        }
+        else if(wrt.equals(funcExp.function.variable)) {
+            FunctionExpression temp = new FunctionExpression(new Function("const", "/", 1.0));
+            out = temp;
+        }
+        else if(funcExp.function.expression.equals("const"))
+            return null;
+        //Deals with functions in the form of f(g(x))
+        if(funcExp.function.compose != null) {
+            FunctionExpression temp = computeDerivative(wrt, funcExp.function.compose);
+            if(temp == null)
+                return null;
+            out = FunctionExpression.product(out, temp);
+        }
+        return FunctionExpression.simplifyNode(out);
+    }
+    //Recursively calculates the sum of two functions on the stack
+    private static void computeRecursion(FunctionExpression funcExp) {
+        if(funcExp != null) {
+            computeRecursion(funcExp.left);
+            computeRecursion(funcExp.right);
+            if(!ifOperator(funcExp.function.expression))
+                stack.push(funcExp.function);
+            else {
+                Function x = stack.pop();
+                Function y = stack.pop();
+                stack.push(new Function("const", "/", compute(funcExp.function.expression, x, y)));
+            }
+        }
+    }
+
+    //does operations involving two different functions
+
 }
