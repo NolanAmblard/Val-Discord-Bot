@@ -12,25 +12,23 @@ public class Tempban implements Commands {
     public void execute(List<String> args, MessageReceivedEvent event) {
         String[] message = event.getMessage().getContentRaw().split(" ");
         if (message.length == 1) {
-            event.getChannel().sendMessage("Please include the person you want to ban's tag.").queue();
+            event.getChannel().sendMessage("Please include the person you want to ban's tag.");
         }
         if (message.length == 2) {
-            event.getChannel().sendMessage("Please include the duration you want to ban the user for (whole number of days).").queue();
+            event.getChannel().sendMessage("Please include the duration you want to ban the user for (whole number of days).");
         }
 
         if (message.length == 3) {
-            String username = message[1];
             int duration = Integer.parseInt(message[2]);
-            event.getGuild().getMemberByTag(username).ban(duration).queue();
-            event.getChannel().sendMessage("User " + username + " has been banned for " + duration + " days.").queue();
+            event.getMessage().getMentionedMembers().get(0).ban(duration);
+            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been banned for " + duration + " days.");
         }
 
         if (message.length == 4) {
-            String username = message[1];
-            int duration = Integer.parseInt(message[2]);
             String reason = message[3];
-            event.getGuild().getMemberByTag(username).ban(duration, reason).queue();
-            event.getChannel().sendMessage("User " + username + " has been banned for " + duration + " days. Reason: " + reason).queue();
+            int duration = Integer.parseInt(message[2]);
+            event.getMessage().getMentionedMembers().get(0).ban(duration);
+            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been banned for " + duration + " days. Reason: " + reason);
         }
     }
 
