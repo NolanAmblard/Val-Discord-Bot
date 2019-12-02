@@ -13,7 +13,7 @@ public class Ban implements Commands {
     public void execute(List<String> args, MessageReceivedEvent event) {
         String[] message = event.getMessage().getContentRaw().split(" ");
         if (message.length == 1) {
-            event.getChannel().sendMessage("Please include the person you want to ban's tag.");
+            event.getChannel().sendMessage("Please include the person you want to ban's tag.").queue();
         }
         if (message.length == 2) {
             String username = message[1];
