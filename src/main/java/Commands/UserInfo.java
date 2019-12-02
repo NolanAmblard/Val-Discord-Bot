@@ -33,13 +33,13 @@ public class UserInfo implements Commands {
                 ae1.setColor(Color.CYAN);
                 event.getChannel().sendMessage(ae1.build()).queue();
             }
-            else if(message.length == 2) {
-                String userName = message[1];
+            else if(message.length == 2){
+                String userName = event.getMessage().getMentionedMembers().get(0).getEffectiveName();
                 User user = event.getMessage().getMentionedMembers().get(0).getUser();
                 String avatar = user.getAvatarUrl();
                 EmbedBuilder ae2 = new EmbedBuilder();
 
-                ae2.setTitle(event.getMessage().getMentionedMembers().get(0).getNickname() + "'s Profile");
+                ae2.setTitle(userName + "'s Profile");
                 ae2.setThumbnail(avatar);
                 ae2.addField("User name: ", event.getMessage().getMentionedMembers().get(0).getNickname(), true);
                 ae2.addField("Online Status: ", event.getGuild().getMember(user).getOnlineStatus().toString(), true);
