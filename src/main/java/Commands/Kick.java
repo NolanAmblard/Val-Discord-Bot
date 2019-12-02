@@ -17,12 +17,11 @@ public class Kick implements Commands {
         }
         if (message.length == 2) {
             String username = message[1];
-            event.getGuild().getMemberByTag(username).kick();
+            event.getMessage().getMentionedMembers().get(0).kick();
             event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been kicked.");
         }
 
         if (message.length == 3) {
-            String username = message[1];
             String reason = message[2];
             event.getMessage().getMentionedMembers().get(0).kick(reason);
             event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been kicked. Reason: " + reason);
