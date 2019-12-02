@@ -21,9 +21,9 @@ public class Unmute implements Commands {
             event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been unmuted.");
         }
     }
-}
 
     @Override
     public String getKeyword() {
         return "Unmute";
     }
+}
