@@ -151,7 +151,7 @@ public class Calculate implements Commands {
                 operators.pop();
             }
             else if (Arrays.asList('^', '%', '*', '/', '+', '-').contains(characters[i])) {
-                while (!operators.isEmpty() && operators.peek() != '(' && orderOfOperations(Character.toString(operators.peek())) <= orderOfOperations(Character.toString(characters[i]))) {
+                while (!operators.isEmpty() && orderOfOperations(Character.toString(operators.peek())) >= orderOfOperations(Character.toString(characters[i]))) {
                     char operator = operators.pop();
                     double num2 = numbers.pop();
                     double num1 = numbers.pop();
