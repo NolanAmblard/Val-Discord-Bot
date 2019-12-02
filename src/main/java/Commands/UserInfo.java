@@ -39,7 +39,7 @@ public class UserInfo implements Commands {
                 String avatar = user.getAvatarUrl();
                 EmbedBuilder ae2 = new EmbedBuilder();
 
-                ae2.setTitle(event.getGuild().getMember(user).getNickname() + "'s Profile");
+                ae2.setTitle(event.getMessage().getMentionedMembers().get(0).getNickname() + "'s Profile");
                 ae2.setThumbnail(avatar);
                 ae2.addField("User name: ", event.getMessage().getMentionedMembers().get(0).getNickname(), true);
                 ae2.addField("Online Status: ", event.getGuild().getMember(user).getOnlineStatus().toString(), true);
