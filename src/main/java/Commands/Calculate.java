@@ -124,10 +124,10 @@ public class Calculate implements Commands {
                 continue;
             }
 
-            if ((characters[i] == '.') || (characters[i] >= '0' && characters[i] <= '9')) {
+            if ((characters[i] == '-' && (i == 0 || Arrays.asList('^', '%', '*', '/', '+', '-', '(').contains(characters[i - 2])) && (characters[i + 2] >= '0' || characters[i + 2] <= '9')) || (characters[i] == '.') || (characters[i] >= '0' && characters[i] <= '9')) {
                 StringBuilder temp = new StringBuilder();
 
-                while (i < characters.length && ((characters[i] == '.') || (characters[i] >= '0' && characters[i] <= '9'))) {
+                while (i < characters.length && ((characters[i] == '-') || (characters[i] == '.') || (characters[i] >= '0' && characters[i] <= '9'))) {
                     temp.append(characters[i]);
                     i += 2;
                 }
