@@ -183,7 +183,7 @@ public class Calculus {
         }
         return FunctionExpression.simplifyNode(out);
     }
-    //Recursively calculates the sum of two functions on the stack
+    //Recursively performs operations, in order to parse in functions with multiple operations required
     private static void computeRecursion(FunctionExpression funcExp) {
         if(funcExp != null) {
             computeRecursion(funcExp.left);
@@ -198,6 +198,53 @@ public class Calculus {
         }
     }
 
-    //does operations involving two different functions
+    //does an operation involving two functions
+    private static double compute(String op, Function x, Function y) {
+        switch(op.charAt(0)) {
+            case '+': return x.evaluate() + y.evaluate();
+            case '-': return x.evaluate() - y.evaluate();
+            case '*': return x.evaluate() * y.evaluate();
+            case '/': return x.evaluate()/y.evaluate();
+            case '^': return Math.pow(x.evaluate(), y.evaluate());
+        }
+        return 0;
+    }
 
+    //method seen a couple times from earlier, it returns whether or not something is an operator
+    private static boolean ifOperator(String x) {
+        return (x.equals("+") || x.equals("-") || x.equals("*") || x.equals("/") || x.equals("^"));
+    }
+
+    //getter and setter methods that could be useful
+    public static ArrayList<String> getVariables() {
+        return variables;
+    }
+
+    public static void setVariables(ArrayList<String> variables) {
+        Calculus.variables = variables;
+    }
+
+    public static ArrayList<Double> getValues() {
+        return values;
+    }
+
+    public static void setValues(ArrayList<Double> values) {
+        Calculus.values = values;
+    }
+
+    public static void setValue(String variable, double value) {
+        for(int i = 0; i < getVariables().size(); i++) {
+            if(getVariables().get(i).equals(variable))
+                values.set(i, value);
+        }
+    }
+
+    //isValid method
+    public boolean isValid(String x) {
+        for(int i = 0; i < getVariables().size(); i++) {
+            if(getVariables().get(i).equals(x))
+                return true;
+        }
+        return false;
+    }
 }
