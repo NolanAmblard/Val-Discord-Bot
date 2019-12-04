@@ -19,12 +19,14 @@ public class Tempban implements Commands {
         }
 
         if (message.length == 3) {
+            //temporarily bans a user for a given time
             int duration = Integer.parseInt(message[2]);
             event.getMessage().getMentionedMembers().get(0).ban(duration).queue();
             event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been banned for " + duration + " days.").queue();
         }
 
         if (message.length == 4) {
+            //temporarily bans a user for a given time for a specified reason
             String reason = message[3];
             int duration = Integer.parseInt(message[2]);
             event.getMessage().getMentionedMembers().get(0).ban(duration).queue();
