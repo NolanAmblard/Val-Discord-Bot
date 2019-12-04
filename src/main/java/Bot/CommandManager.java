@@ -18,6 +18,15 @@ public class CommandManager {
         //NolanAmblard
         addCommand(new Help());
         addCommand(new UserInfo());
+        addCommand(new Ban());
+        addCommand(new Clear());
+        addCommand(new Kick());
+        addCommand(new Kinematic());
+        addCommand(new Mute());
+        addCommand(new ServerInfo());
+        addCommand(new Tempban());
+        addCommand(new Unban());
+        addCommand(new Unmute());
     }
 
     private void addCommand(Commands command) {
