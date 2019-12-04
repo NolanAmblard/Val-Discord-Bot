@@ -16,12 +16,14 @@ public class Ban implements Commands {
             event.getChannel().sendMessage("Please include the person you want to ban's tag.").queue();
         }
         if (message.length == 2) {
+            //Bans a user
             String username = message[1];
             event.getMessage().getMentionedMembers().get(0).ban(54750).queue();
             event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been banned.").queue();
         }
 
         if (message.length == 3) {
+            //Bans a user, includes a reason
             String username = message[1];
             String reason = message[2];
             event.getMessage().getMentionedMembers().get(0).ban(54750, reason).queue();
