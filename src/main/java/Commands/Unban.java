@@ -15,6 +15,7 @@ public class Unban implements Commands {
             event.getChannel().sendMessage("Please include the person you want to unban's tag.").queue();
         }
         if (message.length == 2) {
+            //Unbans the user mentionned in the message
            event.getMessage().getMentionedMembers().get(0).ban(0).queue();
            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been unbanned.").queue();
         }
