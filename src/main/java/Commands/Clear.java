@@ -20,6 +20,7 @@ public class Clear implements Commands {
             event.getChannel().sendMessage("Enter a number of messages to clear after the -clear command `ex: -clear 5`").queue();
         }
         if (message.length == 2) {
+            //clears the number of requested messages from the channel in which the command was sent
             String numdel = message[1];
             TextChannel target = event.getTextChannel();
 
