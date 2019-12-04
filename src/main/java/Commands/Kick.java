@@ -16,12 +16,14 @@ public class Kick implements Commands {
             event.getChannel().sendMessage("Please include the person you want to kick's tag.").queue();
         }
         if (message.length == 2) {
+            //kicks a user
             String username = message[1];
             event.getMessage().getMentionedMembers().get(0).kick().queue();
             event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been kicked.").queue();
         }
 
         if (message.length == 3) {
+            //kicks a user for specified reason
             String reason = message[2];
             event.getMessage().getMentionedMembers().get(0).kick(reason).queue();
             event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been kicked. Reason: " + reason).queue();
