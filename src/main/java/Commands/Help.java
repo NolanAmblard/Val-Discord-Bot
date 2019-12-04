@@ -10,6 +10,7 @@ public class Help implements Commands {
 
     @Override
     public void execute(List<String> args, MessageReceivedEvent event) {
+            //shows all commands and how to use them
             EmbedBuilder eb = new EmbedBuilder();
             eb.setTitle("Moderator Commands");
             eb.addField("-ban @member [optional reason]", "This command bans a user from the server.", false);
