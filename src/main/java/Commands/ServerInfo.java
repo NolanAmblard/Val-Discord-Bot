@@ -18,6 +18,7 @@ public class ServerInfo implements Commands {
         Date date = new Date();
         try {
             if(message.length == 1) {
+                //Shows info on the server in which the command is sent
                 EmbedBuilder eb = new EmbedBuilder();
 
                 eb.setTitle(event.getGuild().getName());
