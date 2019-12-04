@@ -21,7 +21,7 @@ public class CommandManager {
         addCommand(new Ban());
         addCommand(new Clear());
         addCommand(new Kick());
-        addCommand(new Kinematic());
+        addCommand(new Kinematics());
         addCommand(new Mute());
         addCommand(new ServerInfo());
         addCommand(new Tempban());
