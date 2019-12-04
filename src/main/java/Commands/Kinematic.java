@@ -144,7 +144,7 @@ public class Kinematics implements Commands {
                 event.getMessage().getChannel().sendMessage("The initial velocity is " + vel0 + ". We used the 2nd kinematic for this. The final velocity is " + vel + ". We used the 1st kinematic for this.").queue();
             }
             else if( !message[1].equals("x") && message[2].equals("x") && !message[3].equals("x") && message[4].equals("x") && !message[5].equals("x")) {
-                //Solve for only displacement
+                //Solve for initial velocity and acceleration
                 double dis = Double.parseDouble(message[1]);
                 double vel0 = 0;
                 double vel = Double.parseDouble(message[3]);
@@ -155,7 +155,7 @@ public class Kinematics implements Commands {
                 event.getMessage().getChannel().sendMessage("The initial velocity is " + vel0 + ". We used the 1st kinematic for this. The acceleration is " + accel + ". We used the 1st and 2nd kinematic for this.").queue();
             }
             else if( !message[1].equals("x") && message[2].equals("x") && !message[3].equals("x") && !message[4].equals("x") && message[5].equals("x")) {
-                //Solve for only displacement
+                //Solve for initial velocity and time
                 double dis = Double.parseDouble(message[1]);
                 double vel0 = 0;
                 double vel = Double.parseDouble(message[3]);
@@ -166,7 +166,7 @@ public class Kinematics implements Commands {
                 event.getMessage().getChannel().sendMessage("The initial velocity is " + vel0 + ". We used the 3rd kinematic for this. The time is " + time + ". We used the 1st kinematic for this.").queue();
             }
             else if( !message[1].equals("x") && !message[2].equals("x") && message[3].equals("x") && message[4].equals("x") && !message[5].equals("x")) {
-                //Solve for only displacement
+                //Solve for final velocity and acceleration
                 double dis = Double.parseDouble(message[1]);
                 double vel0 = Double.parseDouble(message[2]);
                 double vel = 0;
@@ -177,7 +177,7 @@ public class Kinematics implements Commands {
                 event.getMessage().getChannel().sendMessage("The final velocity is " + vel + ". We used the 1st kinematic for this. The acceleration is " + accel + ". We used the 2nd kinematic for this.").queue();
             }
             else if( !message[1].equals("x") && !message[2].equals("x") && message[3].equals("x") && !message[4].equals("x") && message[5].equals("x")) {
-                //Solve for only displacement
+                //Solve for final velocity and time
                 double dis = Double.parseDouble(message[1]);
                 double vel0 = Double.parseDouble(message[2]);
                 double vel = 0;
@@ -188,7 +188,7 @@ public class Kinematics implements Commands {
                 event.getMessage().getChannel().sendMessage("The final velocity is " + vel + ". We used the 3rd kinematic for this. The time is " + time + ". We used the 1st kinematic for this.").queue();
             }
             else if( !message[1].equals("x") && !message[2].equals("x") && !message[3].equals("x") && message[4].equals("x") && message[5].equals("x")) {
-                //Solve for only displacement
+                //Solve for acceleration and time
                 double dis = Double.parseDouble(message[1]);
                 double vel0 = Double.parseDouble(message[2]);
                 double vel = Double.parseDouble(message[3]);
