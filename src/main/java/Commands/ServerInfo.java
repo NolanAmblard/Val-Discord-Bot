@@ -24,7 +24,7 @@ public class ServerInfo implements Commands {
                 eb.setTitle(event.getGuild().getName());
                 eb.setThumbnail(event.getGuild().getIconUrl());
                 eb.addField("Owner: ", event.getGuild().getOwner().getNickname(), true);
-                eb.addField("Date Created: ", event.getGuild()., true);
+                //eb.addField("Date Created: ", event.getGuild()., true);
                 eb.addField("Members: ", event.getGuild().getMembers().size() + " Members", false);
                 eb.addField("Channels: ", event.getGuild().getChannels().size() + " Channels", true);
                 eb.addField("Roles: ", event.getGuild().getRoles().size() + " Roles", true);
