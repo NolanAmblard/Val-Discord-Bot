@@ -19,6 +19,7 @@ public class UserInfo implements Commands {
         Date date = new Date();
         try {
             if(message.length == 1) {
+                //returns info about the person who sent the message
                 String userName = event.getMessage().getAuthor().getName();
 
                 User user = event.getMessage().getMember().getUser();
@@ -34,6 +35,7 @@ public class UserInfo implements Commands {
                 event.getChannel().sendMessage(ae1.build()).queue();
             }
             else if(message.length == 2){
+                //returns info about the person mentionned in the message
                 String userName = event.getMessage().getMentionedMembers().get(0).getEffectiveName();
                 User user = event.getMessage().getMentionedMembers().get(0).getUser();
                 String avatar = user.getAvatarUrl();
