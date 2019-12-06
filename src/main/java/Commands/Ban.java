@@ -18,7 +18,7 @@ public class Ban implements Commands {
         if (message.length == 2) {
             //Bans a user
             String username = message[1];
-            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been banned.").queue();
+            event.getChannel().sendMessage("User " + event.getMessage().getMentionedUsers().get(0).getName() + " has been banned.").queue();
             event.getMessage().getMentionedMembers().get(0).ban(1).queue();
         }
 
@@ -26,7 +26,7 @@ public class Ban implements Commands {
             //Bans a user, includes a reason
             String username = message[1];
             String reason = message[2];
-            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been banned. Reason: " + reason).queue();
+            event.getChannel().sendMessage("User " + event.getMessage().getMentionedUsers().get(0).getName() + " has been banned. Reason: " + reason).queue();
             event.getMessage().getMentionedMembers().get(0).ban(1, reason).queue();
         }
     }
