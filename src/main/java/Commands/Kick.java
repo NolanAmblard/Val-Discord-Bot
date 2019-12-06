@@ -18,15 +18,15 @@ public class Kick implements Commands {
         if (message.length == 2) {
             //kicks a user
             String username = message[1];
+            event.getChannel().sendMessage("User " + event.getMessage().getMentionedUsers().get(0).getName() + " has been kicked.").queue();
             event.getMessage().getMentionedMembers().get(0).kick().queue();
-            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been kicked.").queue();
         }
 
         if (message.length == 3) {
             //kicks a user for specified reason
             String reason = message[2];
+            event.getChannel().sendMessage("User " + event.getMessage().getMentionedUsers().get(0).getName() + " has been kicked. Reason: " + reason).queue();
             event.getMessage().getMentionedMembers().get(0).kick(reason).queue();
-            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been kicked. Reason: " + reason).queue();
         }
     }
 
