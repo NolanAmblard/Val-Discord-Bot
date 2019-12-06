@@ -18,8 +18,10 @@ public class Unmute implements Commands {
         if (message.length == 2) {
             //unmutes the user mentioned in the message
             //username should be in message[1]
-            event.getMessage().getMentionedMembers().get(0).mute(false).queue();
-            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been unmuted.").queue();
+            User user = event.getMessage().getMentionedUsers().get(0);
+            event.getGuild().getMember(user).mute(false).queue();
+            //event.getMessage().getMentionedUsers().get(0).mute(false).queue();
+            event.getChannel().sendMessage("User " + user.getName() + " has been unmuted.").queue();
         }
     }
 

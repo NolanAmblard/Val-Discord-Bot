@@ -17,18 +17,18 @@ public class Mute implements Commands {
         if (message.length == 2) {
             //Mutes a user
             //String username = message[1];
-            User user = event.getMessage().getMentionedMembers().get(0).getUser();
+            User user = event.getMessage().getMentionedUsers().get(0);
             event.getGuild().getMember(user).mute(true).queue();
-            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been muted.").queue();
+            event.getChannel().sendMessage("User " + user.getName() + " has been muted.").queue();
         }
 
         if (message.length == 3) {
             //Mutes a user for the specified reason
             //String username = message[1];
             String reason = message[2];
-            User user = event.getMessage().getMentionedMembers().get(0).getUser();
+            User user = event.getMessage().getMentionedUsers().get(0);
             event.getGuild().getMember(user).mute(true).queue();
-            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been muted. Reason: " + reason).queue();
+            event.getChannel().sendMessage("User " + user.getName() + " has been muted. Reason: " + reason).queue();
         }
     }
 
