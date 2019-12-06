@@ -34,6 +34,6 @@ public class Mute implements Commands {
 
     @Override
     public String getKeyword() {
-        return "Mute";
+        return "MuteVoice";
     }
 }
