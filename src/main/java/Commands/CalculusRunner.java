@@ -1,3 +1,9 @@
+package main;
+
+import main.Calculus;
+
+import java.util.ArrayList;
+
 public class CalculusRunner {
     public static FunctionExpression equationExample1() {
         FunctionExpression test1 = FunctionExpression.exp(new Function("y", "y", 0), 1);
@@ -7,9 +13,9 @@ public class CalculusRunner {
     public static void derivative(FunctionExpression funcExp) {
         ArrayList<String> variables = new ArrayList<String>();
         ArrayList<Double> values = new ArrayList<Double>();
-        values.add(2);
+        values.add(2.0);
         variables.add("x");
-        values.add(3);
+        values.add(3.0);
         variables.add("y");
         Calculus.setVariables(variables);
         Calculus.setValues(values);
@@ -24,6 +30,24 @@ public class CalculusRunner {
     }
 
     public static void main(String[] args) {
-        derivative(equationExample1());
+        System.out.println("Abhi");
+        Calculus test = new Calculus();
+        ArrayList<String> variables = new ArrayList<String>();
+        ArrayList<Double> values = new ArrayList<Double>();
+        values.add(2.0);
+        variables.add("x");
+        values.add(3.0);
+        variables.add("y");
+        test.setVariables(variables);
+        test.setValues(values);
+        FunctionExpression f = equationExample1();
+        f = FunctionExpression.simplifyExpression(f);
+        System.out.println("Function evaluated: " + test.compute(f));
+        FunctionExpression firstDerivativeX = test.computeDerivative("x", f);
+        if(firstDerivativeX != null) {
+            firstDerivativeX = FunctionExpression.simplifyExpression(firstDerivativeX);
+            System.out.println("d/dx = " + test.compute(firstDerivativeX));
+        }
+
     }
 }
