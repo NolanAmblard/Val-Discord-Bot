@@ -27,6 +27,6 @@ public class Unmute implements Commands {
 
     @Override
     public String getKeyword() {
-        return "Unmute";
+        return "UnmuteVoice";
     }
 }
