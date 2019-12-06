@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.awt.*;
 import java.util.List;
 
-public class Mute implements Commands {
+public class MuteVoice implements Commands {
 
     @Override
     public void execute(List<String> args, MessageReceivedEvent event) {
