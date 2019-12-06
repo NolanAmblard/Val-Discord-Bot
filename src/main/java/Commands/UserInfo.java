@@ -35,15 +35,15 @@ public class UserInfo implements Commands {
                 event.getChannel().sendMessage(ae1.build()).queue();
             }
             else if(message.length == 2){
-                //returns info about the person mentionned in the message
-                String userName = event.getMessage().getMentionedMembers().get(0).getEffectiveName();
-                User user = event.getMessage().getMentionedMembers().get(0).getUser();
+                //returns info about the person mentioned in the message
+                User user = event.getMessage().getMentionedUsers().get(0);
+                String userName = event.getGuild().getMember(event.getMessage().getMentionedUsers().get(0)).getEffectiveName();
                 String avatar = user.getAvatarUrl();
                 EmbedBuilder ae2 = new EmbedBuilder();
 
                 ae2.setTitle(userName + "'s Profile");
                 ae2.setThumbnail(avatar);
-                ae2.addField("User name: ", event.getMessage().getMentionedMembers().get(0).getNickname(), true);
+                ae2.addField("User name: ", event.getMessage().getMentionedUsers().get(0).getName(), true);
                 ae2.addField("Online Status: ", event.getGuild().getMember(user).getOnlineStatus().toString(), true);
                 ae2.setFooter("Request was made at " + formatter.format(date), event.getGuild().getIconUrl());
                 ae2.setColor(Color.CYAN);
