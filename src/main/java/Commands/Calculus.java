@@ -1,8 +1,11 @@
+package main;
+
 import java.util.ArrayList;
 import java.util.Stack;
 
 //Created by Raunakk Chandhoke
 //DO NOT RUN
+
 public class Calculus {
     static Stack<Function> stack;
     private static ArrayList<String> variables = null;
@@ -23,7 +26,7 @@ public class Calculus {
     }
 
     //Returns length of the gradient of a function, as a function
-    public static FunctionExpression lengthOfGradient(FunctionExpresssion funcExp) {
+    public static FunctionExpression lengthOfGradient(FunctionExpression funcExp) {
         ArrayList<FunctionExpression> derivatives = getDerivatives(funcExp);
         FunctionExpression grad = null;
         for(int i = 0; i < derivatives.size(); i++) {
@@ -39,7 +42,7 @@ public class Calculus {
     //Returns a list of all partial derivatives
     public static ArrayList<FunctionExpression> getDerivatives(FunctionExpression funcExp) {
         ArrayList<FunctionExpression> f = new ArrayList<FunctionExpression>();
-        ArrayList<String> var = Calculus.getVariables;
+        ArrayList<String> var = Calculus.getVariables();
         for(int i = 0; i < var.size(); i++) {
             FunctionExpression temp = computeDerivative(var.get(i), funcExp);
             f.add(FunctionExpression.simplifyExpression(temp));
@@ -68,7 +71,7 @@ public class Calculus {
             return;
         System.out.println("Printing Stack");
         for(int i = 0; i < stack.size(); i++)
-            stack.elementAt(i).print();
+            stack.elementAt(i).printVars();
     }
 
     //Returns the derivative of a FunctionExpression as a FunctionExpression w.r.t a specified variable
@@ -83,7 +86,7 @@ public class Calculus {
             if(derivLeft != null)
                 temp.addLeft(derivLeft);
             if(derivRight != null)
-                temo.addRight(derivRight);
+                temp.addRight(derivRight);
             if(derivLeft == null && derivRight == null)
                 return null;
             if(derivLeft == null && derivRight != null)
@@ -133,7 +136,7 @@ public class Calculus {
                     if(funcExp.right.function.value == 0)
                         return null;
                     FunctionExpression muliEx = FunctionExpression.exp(funcExp.left.copy(), new Function("const", "/", funcExp.right.function.value - 1));
-                    FunctionExpression exp = FunctionExpression.prod(muliEx, new Function("const", "/", funcExp.right.function.value)));
+                    FunctionExpression exp = FunctionExpression.product(muliEx, new Function("const", "/", funcExp.right.function.value));
                     FunctionExpression f = computeDerivative(wrt, funcExp.left);
                     if(f != null)
                         output = FunctionExpression.product(exp, f);
@@ -142,7 +145,7 @@ public class Calculus {
             }
         }
         else if(!ifOperator(funcExp.function.expression))
-            return out = derive(wrt, funcExp);
+            return output = derive(wrt, funcExp);
         return FunctionExpression.simplifyNode(output);
     }
 
@@ -150,7 +153,7 @@ public class Calculus {
     public static FunctionExpression derive(String wrt, FunctionExpression funcExp) {
         if(funcExp.function == null)
             return null;
-        if(funcExp.function.compose == null && !(funcExp.function.variable.equals(wrt)))
+        if(funcExp.function.compose == null && !(funcExp.function.var.equals(wrt)))
             return null;
         FunctionExpression out = null;
         if(funcExp.function.expression.equals("sin")) {
@@ -165,10 +168,10 @@ public class Calculus {
         }
         else if(funcExp.function.expression.equals("ln")) {
             FunctionExpression temp = funcExp.copy();
-            temp.function.expression = "" + funcExp.function.variable;
+            temp.function.expression = "" + funcExp.function.var;
             out = FunctionExpression.exp(temp, -1.0);
         }
-        else if(wrt.equals(funcExp.function.variable)) {
+        else if(wrt.equals(funcExp.function.var)) {
             FunctionExpression temp = new FunctionExpression(new Function("const", "/", 1.0));
             out = temp;
         }
