@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.awt.*;
 import java.util.List;
 
-public class Unmutevoice implements Commands {
+public class UnmuteVoice implements Commands {
 
     @Override
     public void execute(List<String> args, MessageReceivedEvent event) {
