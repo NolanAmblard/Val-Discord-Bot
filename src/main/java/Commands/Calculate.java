@@ -126,6 +126,7 @@ public class Calculate implements Commands {
 
         //Spaces out the expressionBuilder so that each character is separated by a String
         for (int i = 0; i < expression.length(); i++) {
+
             if (i > 0) {
                 expressionBuilder.append(" ");
             }
@@ -141,21 +142,35 @@ public class Calculate implements Commands {
 
         for (int i = 0; i < characters.length; i++) {
 
+            //Troubleshooting
+            if (i % 2 == 0) {
+                System.out.println(numbers);
+                System.out.println(operators);
+            }
+
             //If the character in the Array is a space, we skip it
             if (characters[i] == ' ') {
                 continue;
             }
 
             //Checks if the character is a number, negative sign, or decimal point
-            if ((characters[i] == '-' && (i == 0 || Arrays.asList('^', '%', '*', '/', '+', '-', '(').contains(characters[i - 2])) && (characters[i + 2] >= '0' || characters[i + 2] <= '9')) || (characters[i] == '.') || (characters[i] >= '0' && characters[i] <= '9')) {
+            if ((characters[i] == '-' && (i == 0 || (i >= 2 && Arrays.asList('^', '%', '*', '/', '+', '-', '(').contains(characters[i - 2]))) && (i < characters.length - 2 && (characters[i + 2] >= '0' || characters[i + 2] <= '9'))) || (characters[i] == '.') || (characters[i] >= '0' && characters[i] <= '9')) {
                 StringBuilder temp = new StringBuilder();
 
                 //Incrementing i by 2 because every other position in the Array will be a space
-                while (i < characters.length && ((characters[i] == '-') || (characters[i] == '.') || (characters[i] >= '0' && characters[i] <= '9'))) {
+                //In case the character is a negative sign, we want to account for that only once
+                //Because a negative sign can only be at the front of the number, we don't want to include this in the while loop or it might append a minus operator
+                if (characters[i] == '-') {
                     temp.append(characters[i]);
                     i += 2;
                 }
 
+                while (i < characters.length && ((characters[i] == '.') || (characters[i] >= '0' && characters[i] <= '9'))) {
+                    temp.append(characters[i]);
+                    i += 2;
+                }
+
+                //Decrement i so that it is back in the correct position (would be one position more because of the way the while loop is constructed
                 i -= 2;
 
                 numbers.push(Double.parseDouble(temp.toString()));
