@@ -22,11 +22,11 @@ public class CommandManager {
         addCommand(new Clear());
         addCommand(new Kick());
         addCommand(new Kinematics());
-        addCommand(new Mute());
+        addCommand(new MuteVoice());
         addCommand(new ServerInfo());
         addCommand(new Tempban());
         addCommand(new Unban());
-        addCommand(new Unmute());
+        addCommand(new UnmuteVoice());
     }
 
     private void addCommand(Commands command) {
