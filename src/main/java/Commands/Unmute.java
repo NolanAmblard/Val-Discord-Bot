@@ -16,7 +16,7 @@ public class Unmute implements Commands {
             event.getChannel().sendMessage("Please include the person you want to unmute's tag.").queue();
         }
         if (message.length == 2) {
-            //unmutes the user mentionned in the message
+            //unmutes the user mentioned in the message
             //username should be in message[1]
             event.getMessage().getMentionedMembers().get(0).mute(false).queue();
             event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been unmuted.").queue();
