@@ -1,5 +1,7 @@
 //Created by Raunakk Chandhoke
 //This is able to handle more complex functions and can do operations with them
+package main;
+
 public class FunctionExpression {
     //For performing operations with functions
     FunctionExpression left;
@@ -39,7 +41,7 @@ public class FunctionExpression {
         if(funcExp == null)
             return false;
         if(j == k) {
-            funcExp.function.print();
+            funcExp.function.printVars();
             return true;
         }
         else {
@@ -105,15 +107,15 @@ public class FunctionExpression {
 
     public static FunctionExpression sum(double x, Function y) {
         FunctionExpression sum = new FunctionExpression(new Function("+"));
-        sum.addRight(new FunctionExpression(x));
-        sum.addLeft(new FunctionExpression(new Function("const", "/", y)));
+        sum.addRight(new FunctionExpression(y));
+        sum.addLeft(new FunctionExpression(new Function("const", "/", x)));
         return sum;
     }
 
     public static FunctionExpression sum(double x, FunctionExpression y) {
         FunctionExpression sum = new FunctionExpression(new Function("+"));
         sum.addRight(y);
-        sum.addLeft(new FunctionExpression(new Function("const", "/", y)));
+        sum.addLeft(new FunctionExpression(new Function("const", "/", x)));
         return sum;
     }
 
@@ -127,7 +129,7 @@ public class FunctionExpression {
     public static FunctionExpression sub(FunctionExpression x, double y) {
         FunctionExpression sub = new FunctionExpression(new Function("-"));
         sub.addLeft(x);
-        sub.addRight(new FunctionExpression(new Function("const". "/", y)));
+        sub.addRight(new FunctionExpression(new Function("const", "/", y)));
         return sub;
     }
 
@@ -156,7 +158,7 @@ public class FunctionExpression {
         FunctionExpression sub = new FunctionExpression(new Function("-"));
         sub.addLeft(new FunctionExpression(new Function("const", "/", x)));
         sub.addRight(new FunctionExpression(new Function("const", "/", y)));
-        return sum;
+        return sub;
     }
 
     public static FunctionExpression sub(double x, Function y) {
@@ -289,7 +291,7 @@ public class FunctionExpression {
         FunctionExpression prod = new FunctionExpression(new Function("*"));
         prod.addLeft(new FunctionExpression(new Function("const", "/", x)));
         prod.addRight(new FunctionExpression(y));
-        return product;
+        return prod;
     }
 
     public static FunctionExpression product(double x, FunctionExpression y) {
@@ -365,7 +367,7 @@ public class FunctionExpression {
     public static FunctionExpression exp(Function x, double y) {
         FunctionExpression exp = new FunctionExpression(new Function("^"));
         exp.addLeft(new FunctionExpression(x));
-        div.addRight(new FunctionExpression(new Function("const", "/", y)));
+        exp.addRight(new FunctionExpression(new Function("const", "/", y)));
         return exp;
     }
 
@@ -398,7 +400,7 @@ public class FunctionExpression {
         }
         return funcExp;
     }
-    
+
     //Simplifies the expression as a whole
     public static FunctionExpression simplifyExpression(FunctionExpression funcExp) {
         if(funcExp == null)
