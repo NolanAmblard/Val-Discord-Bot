@@ -1,5 +1,7 @@
 //Created by Raunakk Chandhoke
 //This class defines what a function is and includes key functions for use in derivatives
+package main;
+
 public class Function {
     String var;
     String expression;
@@ -23,7 +25,7 @@ public class Function {
         temp.value = value;
         temp.var = var;
         if(compose != null)
-            temp.compose = compose.copy;
+            temp.compose = compose.copy();
         return temp;
     }
 
@@ -38,7 +40,7 @@ public class Function {
         System.out.println("Variable: " + var);
         System.out.println("Value: " + value);
         if(compose != null)
-            System.out.println("Compose: " + compose)
+            System.out.println("Compose: " + compose);
     }
 
     //Evaluates functions; how to add more possible functions
@@ -58,9 +60,8 @@ public class Function {
             return Math.cos(value);
         if(expression.equals("ln"))
             return Math.log(value);
-        if(expression.equals(variable))
+        if(expression.equals(var))
             return value;
         return 0;
     }
-
 }
