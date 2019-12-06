@@ -143,10 +143,10 @@ public class Calculate implements Commands {
         for (int i = 0; i < characters.length; i++) {
 
             //Troubleshooting
-            if (i % 2 == 0) {
-                System.out.println(numbers);
-                System.out.println(operators);
-            }
+//            if (i % 2 == 0) {
+//                System.out.println(numbers);
+//                System.out.println(operators);
+//            }
 
             //If the character in the Array is a space, we skip it
             if (characters[i] == ' ') {
