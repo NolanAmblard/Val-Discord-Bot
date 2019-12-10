@@ -1,7 +1,7 @@
+package Commands;
+
 //Created by Raunakk Chandhoke
 //This class defines what a function is and includes key functions for use in derivatives
-package main;
-
 public class Function {
     String var;
     String expression;
@@ -41,6 +41,10 @@ public class Function {
         System.out.println("Value: " + value);
         if(compose != null)
             System.out.println("Compose: " + compose);
+    }
+
+    public String getExpression() {
+        return expression;
     }
 
     //Evaluates functions; how to add more possible functions
