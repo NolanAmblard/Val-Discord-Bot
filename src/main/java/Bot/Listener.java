@@ -1,3 +1,4 @@
+//Lawrence Zhang
 package Bot;
 
 import net.dv8tion.jda.api.entities.Message;
@@ -19,6 +20,7 @@ public class Listener extends ListenerAdapter {
         String content = m.getContentRaw();
         MessageChannel channel = event.getChannel();
 
+        //Easter Eggs for the Val Bot
         if (content.toLowerCase().contains("michael zheng")) {
             int randomNumber1 = (int) (12 * Math.random());
             double randomNumber2 = Math.random() * 1000;
@@ -58,6 +60,7 @@ public class Listener extends ListenerAdapter {
             channel.sendMessage("Bruh").queue();
         }
 
+        //If the user who sent the message is not a bot and the beginning of the message begins with the correct prefix, then run the command
         if (!event.getAuthor().isBot() && content.startsWith("-")) {
             cm.runCommand(event);
         }
