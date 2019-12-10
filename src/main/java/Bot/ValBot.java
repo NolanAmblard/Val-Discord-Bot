@@ -1,3 +1,4 @@
+//Lawrence Zhang
 package Bot;
 
 import net.dv8tion.jda.api.JDA;
