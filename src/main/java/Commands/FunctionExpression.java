@@ -1,6 +1,7 @@
+package Commands;
+
 //Created by Raunakk Chandhoke
 //This is able to handle more complex functions and can do operations with them
-package main;
 
 public class FunctionExpression {
     //For performing operations with functions
@@ -36,6 +37,7 @@ public class FunctionExpression {
         }
     }
 
+
     //Print the tree out via recursion
     public boolean printByLevelRecur(FunctionExpression funcExp, int j, int k) {
         if(funcExp == null)
@@ -62,7 +64,7 @@ public class FunctionExpression {
         this.right = right;
     }
 
-   //Operations with functions
+    //Operations with functions
     public static FunctionExpression sum(Function x, Function y) {
         FunctionExpression sum = new FunctionExpression(new Function("+"));
         sum.addLeft(new FunctionExpression(x));
