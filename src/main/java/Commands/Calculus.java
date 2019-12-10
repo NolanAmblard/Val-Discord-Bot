@@ -1,4 +1,4 @@
-package main;
+package Commands;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -55,7 +55,7 @@ public class Calculus {
         if(funcExp == null)
             return 0;
         if(variables == null) {
-            System.out.println("error: variables haven't been set yet");
+            System.out.println("Error: variables haven't been set yet");
             return 0;
         }
         Stack<Function> temp = stack;
@@ -133,15 +133,15 @@ public class Calculus {
         }
         else if(funcExp.function.expression.equals("^")) {
             if(funcExp.right.function.expression.equals("const")) {
-                    if(funcExp.right.function.value == 0)
-                        return null;
-                    FunctionExpression muliEx = FunctionExpression.exp(funcExp.left.copy(), new Function("const", "/", funcExp.right.function.value - 1));
-                    FunctionExpression exp = FunctionExpression.product(muliEx, new Function("const", "/", funcExp.right.function.value));
-                    FunctionExpression f = computeDerivative(wrt, funcExp.left);
-                    if(f != null)
-                        output = FunctionExpression.product(exp, f);
-                    else
-                        return null;
+                if(funcExp.right.function.value == 0)
+                    return null;
+                FunctionExpression muliEx = FunctionExpression.exp(funcExp.left.copy(), new Function("const", "/", funcExp.right.function.value - 1));
+                FunctionExpression exp = FunctionExpression.product(muliEx, new Function("const", "/", funcExp.right.function.value));
+                FunctionExpression f = computeDerivative(wrt, funcExp.left);
+                if(f != null)
+                    output = FunctionExpression.product(exp, f);
+                else
+                    return null;
             }
         }
         else if(!ifOperator(funcExp.function.expression))
