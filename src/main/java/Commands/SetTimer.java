@@ -19,19 +19,19 @@ public class SetTimer implements Commands {
         User author = m.getAuthor();
         String[] content = m.getContentRaw().toLowerCase().split(" ");
         MessageChannel channel = event.getChannel();
-        MessageHistory history = channel.getHistory();
 
         try {
             if (content.length == 2) {
                 String[] times = content[1].split(":");
 
-                double startTime = System.currentTimeMillis();
-                double timerTime = getTotalTime(times);
-                double currentTime = System.currentTimeMillis() - startTime;
-                boolean timerOn = true;
+                Thread t = new Thread();
 
-                while (timerOn) {
-                    //history.get
+                int startTime = Math.round(System.currentTimeMillis());
+                int endTime = (int) Math.round((startTime + getTotalTime(times)));
+                double currentTime = endTime - System.currentTimeMillis();
+
+                for (int i = endTime; i >= startTime; i--) {
+                    t.sleep(1000);
                     channel.sendMessage("Time: " + currentTime).queue();
                 }
             }
