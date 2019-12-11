@@ -3,12 +3,8 @@ package Commands;
 
 import Bot.Commands;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.MessageHistory;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -31,6 +27,7 @@ public class SetTimer implements Commands {
 
                 Thread thread = new Thread();
                 MessageHistory history = new MessageHistory(channel);
+                TextChannel textChannel = event.getTextChannel();
 
                 LocalDateTime time = LocalDateTime.now();
 
@@ -53,12 +50,16 @@ public class SetTimer implements Commands {
                 System.out.println(currentTime);
 
                 for (int i = endTime; i >= startTime; i--) {
-                    thread.sleep(1000);
-
                     currentTime = i - startTime;
 
                     //Troubleshooting
                     System.out.println(currentTime);
+
+                    channel.sendMessage(convertTimeToString(currentTime)).queue();
+
+                    thread.sleep(1000);
+
+                    channel.deleteMessageById(channel.).queue();
 
                     if (i < endTime) {
                         String id;
@@ -66,7 +67,7 @@ public class SetTimer implements Commands {
                         //Troubleshooting
                         System.out.println("I've arrived here!");
 
-                        List<Message> messages = history.retrievePast(100).complete();
+                        List<Message> messages = history.retrievePast(10).complete();
 
                         for (int j = messages.size() - 1; j >= 0; j--) {
                             if (messages.get(j).getAuthor().getId().equals(val.getId())) {
@@ -77,14 +78,12 @@ public class SetTimer implements Commands {
                                 System.out.println("Val ID: " + val.getId());
                                 System.out.println("Message ID: " + id);
 
-                                channel.deleteMessageById(id).complete();
+                                textChannel.deleteMessageById(id).queue();
 
                                 break;
                             }
                         }
                     }
-
-                    channel.sendMessage("Time: " + convertTimeToString(currentTime)).queue();
                 }
 
                 channel.sendMessage("Time's up!").queue();
