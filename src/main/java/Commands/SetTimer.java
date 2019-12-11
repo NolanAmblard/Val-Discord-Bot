@@ -29,6 +29,8 @@ public class SetTimer implements Commands {
                 MessageHistory history = new MessageHistory(channel);
                 TextChannel textChannel = event.getTextChannel();
 
+                List<Message> messages = new ArrayList<>();
+
                 LocalDateTime time = LocalDateTime.now();
 
                 String hours = Integer.toString(time.getHour());
@@ -65,18 +67,23 @@ public class SetTimer implements Commands {
                         //Troubleshooting
                         System.out.println("I've arrived here!");
 
-                        List<Message> messages = history.retrievePast(10).complete();
+                        List<Message> temp = history.retrievePast(10).complete();
 
-                        for (int j = messages.size() - 1; j >= 0; j--) {
-                            if (messages.get(j).getAuthor().getId().equals(val.getId())) {
-                                id = messages.get(j).getId();
+                        for (int j = temp.size() - 1; j >= 0; j--) {
+                            if (temp.get(j).getAuthor().getId().equals(val.getId())) {
+                                messages.add(temp.get(j));
+                                id = temp.get(j).getId();
 
                                 //Troubleshooting
-                                System.out.println("Message Author ID: " + messages.get(j).getAuthor().getId());
+                                System.out.println("Message Author ID: " + temp.get(j).getAuthor().getId());
                                 System.out.println("Val ID: " + val.getId());
                                 System.out.println("Message ID: " + id);
+                                System.out.println("Message List Size: " + messages.size());
 
-                                textChannel.deleteMessageById(id).queue();
+                                if (messages.size() >= 2) {
+                                    textChannel.deleteMessages(messages).queue();
+                                    messages.clear();
+                                }
 
                                 break;
                             }
