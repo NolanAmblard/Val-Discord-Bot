@@ -65,16 +65,19 @@ public class SetTimer implements Commands {
 
                         //Troubleshooting
                         System.out.println("I've arrived here!");
-                        System.out.println("" + history.getRetrievedHistory().size());
 
-                        for (int j = history.getRetrievedHistory().size() - 1; j >= 0; j--) {
-                            if (history.getRetrievedHistory().get(j).getAuthor().getId().equals(val.getId())) {
-                                id = history.getRetrievedHistory().get(j).getId();
+                        List<Message> messages = history.retrievePast(100).complete();
+
+                        for (int j = messages.size() - 1; j >= 0; j--) {
+                            if (messages.get(j).getAuthor().getId().equals(val.getId())) {
+                                id = messages.get(j).getId();
 
                                 //Troubleshooting
-                                System.out.println("I'm working properly!");
+                                System.out.println("Message Author ID: " + messages.get(j).getAuthor().getId());
+                                System.out.println("Val ID: " + val.getId());
+                                System.out.println("Message ID: " + id);
 
-                                channel.deleteMessageById(id).queue();
+                                channel.deleteMessageById(id).complete();
 
                                 break;
                             }
