@@ -2,11 +2,14 @@
 package Commands;
 
 import Bot.Commands;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageHistory;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class SetTimer implements Commands {
@@ -19,28 +22,76 @@ public class SetTimer implements Commands {
         User author = m.getAuthor();
         String[] content = m.getContentRaw().toLowerCase().split(" ");
         MessageChannel channel = event.getChannel();
+        JDA jda = event.getJDA();
+        User val = jda.getSelfUser();
 
         try {
             if (content.length == 2) {
-                String[] times = content[1].split(":");
+                String[] userTimes = content[1].split(":");
 
-                Thread t = new Thread();
+                Thread thread = new Thread();
+                MessageHistory history = new MessageHistory(channel);
 
-                int startTime = Math.round(System.currentTimeMillis());
-                int endTime = (int) Math.round((startTime + getTotalTime(times)));
-                double currentTime = endTime - System.currentTimeMillis();
+                LocalDateTime time = LocalDateTime.now();
+
+                String hours = Integer.toString(time.getHour());
+                String minutes = Integer.toString(time.getMinute());
+                String seconds = Integer.toString(time.getSecond());
+
+                String[] currentTimes = new String[3];
+                currentTimes[0] = hours;
+                currentTimes[1] = minutes;
+                currentTimes[2] = seconds;
+
+                int startTime = getTotalTime(currentTimes);
+                int endTime = startTime + getTotalTime(userTimes);
+                int currentTime = endTime - startTime;
+
+                //Troubleshooting
+                System.out.println(startTime);
+                System.out.println(endTime);
+                System.out.println(currentTime);
 
                 for (int i = endTime; i >= startTime; i--) {
-                    t.sleep(1000);
-                    channel.sendMessage("Time: " + currentTime).queue();
+                    thread.sleep(1000);
+
+                    currentTime = i - startTime;
+
+                    //Troubleshooting
+                    System.out.println(currentTime);
+
+                    if (i < endTime) {
+                        String id;
+
+                        //Troubleshooting
+                        System.out.println("I've arrived here!");
+                        System.out.println("" + history.getRetrievedHistory().size());
+
+                        for (int j = history.getRetrievedHistory().size() - 1; j >= 0; j--) {
+                            if (history.getRetrievedHistory().get(j).getAuthor().getId().equals(val.getId())) {
+                                id = history.getRetrievedHistory().get(j).getId();
+
+                                //Troubleshooting
+                                System.out.println("I'm working properly!");
+
+                                channel.deleteMessageById(id).queue();
+
+                                break;
+                            }
+                        }
+                    }
+
+                    channel.sendMessage("Time: " + convertTimeToString(currentTime)).queue();
                 }
+
+                channel.sendMessage("Time's up!").queue();
             }
             else if (content.length > 2) {
 
             }
         }
-        catch (Exception e) {
-            channel.sendMessage("The operation includes invalid symbols.").queue();
+        catch (InterruptedException e) {
+            channel.sendMessage("Oops! Something went wrong.").queue();
             channel.sendMessage("The error received is: " + e.getMessage()).queue();
         }
     }
@@ -50,8 +101,8 @@ public class SetTimer implements Commands {
         return "SetTimer";
     }
 
-    private double getTotalTime(String[] times) {
-        double time = 0;
+    private int getTotalTime(String[] times) {
+        int time = 0;
 
         int multiplier = (int) Math.pow(60, (times.length - 1));
 
@@ -61,5 +112,100 @@ public class SetTimer implements Commands {
         }
 
         return time;
+    }
+
+    private String convertTimeToString(int time) {
+        String timeToString;
+
+        if (time % 3600 == time) {
+            if (time % 60 == time) {
+                 timeToString = "00:00:" + time;
+            }
+            else {
+                String minutes = Double.toString( (double) time / 60);
+
+                String seconds = "";
+
+                if (minutes.contains(".")) {
+                    String[] temp = minutes.split("[.]");
+
+                    seconds = Double.toString(Math.round(Double.parseDouble("." + temp[1]) * 60));
+
+                    if (seconds.substring(0, 2).equals("60")) {
+                        seconds = "00" + seconds.substring(2);
+                        minutes = Double.toString(Double.parseDouble(minutes) + 1);
+                    }
+
+                    timeToString = "00:" + minutes.substring(0, 2) + ":" + seconds.substring(0, 2);
+                }
+                else {
+                    if (minutes.substring(0, minutes.indexOf(".")).length() == 1) {
+                        timeToString =  "00:0" + minutes.substring(0, 2) + ":00";
+                    }
+                    else {
+                        timeToString = "00:" + minutes.substring(0, 2) + ":00";
+                    }
+                }
+            }
+
+            return timeToString;
+        }
+
+        String hours = Double.toString((double) time / 3600);
+
+        //Troubleshooting
+        System.out.println(hours);
+
+        String minutes;
+        String seconds;
+
+        if (hours.contains(".")) {
+            String[] temp1 = hours.split("[.]");
+
+            //Troubleshooting
+            System.out.println(temp1);
+
+            minutes = Double.toString(Double.parseDouble("." + temp1[1]) * 60);
+
+            if (minutes.substring(0, 2).equals("60")) {
+                minutes = "00" + minutes.substring(2);
+                hours = Double.toString(Double.parseDouble(hours) + 1);
+            }
+
+            if (minutes.contains(".")) {
+                String[] temp2 = minutes.split("[.]");
+
+                seconds = Double.toString(Math.round(Double.parseDouble("." + temp2[1]) * 60));
+
+                if (seconds.substring(0, 2).equals("60")) {
+                    seconds = "00" + seconds.substring(2);
+                    minutes = Double.toString(Double.parseDouble(minutes) + 1);
+                }
+                if (minutes.substring(0, 2).equals("60")) {
+                    minutes = "00" + minutes.substring(2);
+                    hours = Double.toString(Double.parseDouble(hours) + 1);
+                }
+
+                timeToString = hours.substring(0, hours.indexOf(".")) + ":" + minutes.substring(0, 2) + ":" + seconds.substring(0, 2);
+            }
+            else {
+                if (minutes.substring(0, minutes.indexOf(".")).length() == 1) {
+                    timeToString = hours.substring(0, hours.indexOf(".")) + ":0" + minutes.substring(0, 2) + ":00";
+                }
+                else {
+                    timeToString = hours.substring(0, hours.indexOf(".")) + ":" + minutes.substring(0, 2) + ":00";
+                }
+            }
+        }
+        else {
+            if (hours.substring(0, hours.indexOf(".")).length() == 1) {
+                timeToString = "0" + hours.substring(0, hours.indexOf(".")) + ":00:00";
+            }
+            else {
+                timeToString = hours.substring(0, hours.indexOf(".")) + ":00:00";
+            }
+        }
+
+        return timeToString;
     }
 }
