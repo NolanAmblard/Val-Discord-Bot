@@ -59,8 +59,6 @@ public class SetTimer implements Commands {
 
                     thread.sleep(1000);
 
-                    channel.deleteMessageById(channel.).queue();
-
                     if (i < endTime) {
                         String id;
 
