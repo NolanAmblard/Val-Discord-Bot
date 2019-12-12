@@ -10,6 +10,8 @@ import java.util.*;
 
 public class SetTimer implements Commands {
 
+    private int currentTime;
+
     //Execution of the message
     @Override
     public void execute(List<String> args, MessageReceivedEvent event) {
@@ -26,10 +28,7 @@ public class SetTimer implements Commands {
                 String[] userTimes = content[1].split(":");
 
                 Thread thread = new Thread();
-                MessageHistory history = new MessageHistory(channel);
                 TextChannel textChannel = event.getTextChannel();
-
-                List<Message> messages = new ArrayList<>();
 
                 LocalDateTime time = LocalDateTime.now();
 
@@ -44,7 +43,7 @@ public class SetTimer implements Commands {
 
                 int startTime = getTotalTime(currentTimes);
                 int endTime = startTime + getTotalTime(userTimes);
-                int currentTime = endTime - startTime;
+                currentTime = endTime - startTime;
 
                 //Troubleshooting
                 System.out.println(startTime);
@@ -57,35 +56,38 @@ public class SetTimer implements Commands {
                     //Troubleshooting
                     System.out.println(currentTime);
 
-                    channel.sendMessage(convertTimeToString(currentTime)).queue();
-
                     thread.sleep(1000);
 
-                    if (i < endTime) {
-                        String id;
+                    if (i == endTime) {
+                        channel.sendMessage(convertTimeToString(currentTime)).queue();
+                    }
+                    else {
+                        if (i < endTime) {
+                            String id;
 
-                        //Troubleshooting
-                        System.out.println("I've arrived here!");
+                            //Troubleshooting
+                            System.out.println("I've arrived here!");
 
-                        List<Message> temp = history.retrievePast(10).complete();
+                            MessageHistory history = new MessageHistory(channel);
+                            List<Message> temp = history.retrievePast(10).complete();
 
-                        for (int j = temp.size() - 1; j >= 0; j--) {
-                            if (temp.get(j).getAuthor().getId().equals(val.getId())) {
-                                messages.add(temp.get(j));
-                                id = temp.get(j).getId();
+                            for (int j = temp.size() - 1; j >= 0; j--) {
 
                                 //Troubleshooting
-                                System.out.println("Message Author ID: " + temp.get(j).getAuthor().getId());
-                                System.out.println("Val ID: " + val.getId());
-                                System.out.println("Message ID: " + id);
-                                System.out.println("Message List Size: " + messages.size());
+                                System.out.println(temp.get(j).getContentRaw());
 
-                                if (messages.size() >= 2) {
-                                    textChannel.deleteMessages(messages).queue();
-                                    messages.clear();
+                                if (temp.get(j).getAuthor().getId().equals(val.getId())) {
+                                    id = temp.get(j).getId();
+
+                                    //Troubleshooting
+                                    System.out.println("Message Author ID: " + temp.get(j).getAuthor().getId());
+                                    System.out.println("Val ID: " + val.getId());
+                                    System.out.println("Message ID: " + id);
+
+                                    textChannel.editMessageById(id, convertTimeToString(currentTime)).queue();
+
+                                    break;
                                 }
-
-                                break;
                             }
                         }
                     }
@@ -124,6 +126,10 @@ public class SetTimer implements Commands {
     private String convertTimeToString(int time) {
         String timeToString;
 
+        if (time == 0) {
+            return "00:00:00";
+        }
+
         if (time % 3600 == time) {
             if (time % 60 == time) {
                  timeToString = "00:00:" + time;
@@ -131,7 +137,7 @@ public class SetTimer implements Commands {
             else {
                 String minutes = Double.toString( (double) time / 60);
 
-                String seconds = "";
+                String seconds;
 
                 if (minutes.contains(".")) {
                     String[] temp = minutes.split("[.]");
@@ -141,6 +147,9 @@ public class SetTimer implements Commands {
                     if (seconds.substring(0, 2).equals("60")) {
                         seconds = "00" + seconds.substring(2);
                         minutes = Double.toString(Double.parseDouble(minutes) + 1);
+                    }
+                    if (seconds.substring(0, 2).contains(".")) {
+                        seconds = "0" + seconds;
                     }
 
                     timeToString = "00:" + minutes.substring(0, 2) + ":" + seconds.substring(0, 2);
@@ -178,6 +187,9 @@ public class SetTimer implements Commands {
                 minutes = "00" + minutes.substring(2);
                 hours = Double.toString(Double.parseDouble(hours) + 1);
             }
+            if (minutes.substring(0, 2).contains(".")) {
+                minutes = "0" + minutes;
+            }
 
             if (minutes.contains(".")) {
                 String[] temp2 = minutes.split("[.]");
@@ -191,6 +203,12 @@ public class SetTimer implements Commands {
                 if (minutes.substring(0, 2).equals("60")) {
                     minutes = "00" + minutes.substring(2);
                     hours = Double.toString(Double.parseDouble(hours) + 1);
+                }
+                if (seconds.substring(0, 2).contains(".")) {
+                    seconds = "0" + seconds;
+                }
+                if (minutes.substring(0, 2).contains(".")) {
+                    minutes = "0" + minutes;
                 }
 
                 timeToString = hours.substring(0, hours.indexOf(".")) + ":" + minutes.substring(0, 2) + ":" + seconds.substring(0, 2);
