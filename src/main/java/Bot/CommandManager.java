@@ -25,9 +25,10 @@ public class CommandManager {
         addCommand(new Kinematics());
         addCommand(new MuteVoice());
         addCommand(new ServerInfo());
-        addCommand(new Tempban());
         addCommand(new Unban());
         addCommand(new UnmuteVoice());
+        addCommand(new Mute());
+        addCommand(new Unmute());
     }
 
     //Add Command method which adds a command to the commands map
