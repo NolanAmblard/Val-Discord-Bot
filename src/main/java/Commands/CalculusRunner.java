@@ -4,6 +4,8 @@ package Commands;
 //Runner File for Calculus
 import java.util.ArrayList;
 public class CalculusRunner {
+
+
     // (y^(0.5)*x^(1.5) + y^(2.2)*x^(-0.7))^(-2.6)
     public static FunctionExpression equationExample1(){
         FunctionExpression Q1=FunctionExpression.exp(new Function("y","y",0),0.5);
@@ -73,26 +75,27 @@ public class CalculusRunner {
         //define variables that will be used
         ArrayList<String> variables=new ArrayList<String>();
         ArrayList<Double> values=new ArrayList<Double>();
-        values.add(92.3);
+        values.add(1.0);
         variables.add("x");
-        values.add(111.4);
+        values.add(1.0);
         variables.add("y");
         //machine that handles computations
         Calculus.setVariables(variables);
         Calculus.setValues(values);
 
         FunctionExpression f=functionExpression;
-        //simplyfing the expression
+        //simplifying the expression
         f=FunctionExpression.simplifyExpression(f);
         //printing the expression tree, by level
         //f.printByLevel();
         //f evaluated at specified point
-        f.printByLevel();
+        //f.printByLevel();
         //computing the first derivative od f, with respect to x
-        FunctionExpression firstDerivativeX=Calculus.computeDerivative("x", f);
-        if(firstDerivativeX!=null){
-            firstDerivativeX=FunctionExpression.simplifyExpression(firstDerivativeX);
-            firstDerivativeX.printByLevel();
+        System.out.println(f.print(f));
+        FunctionExpression firstDerivativeX = Calculus.computeDerivative("x", f);
+        if(firstDerivativeX != null){
+            firstDerivativeX = FunctionExpression.simplifyExpression(firstDerivativeX);
+            //firstDerivativeX.printByLevel();
             System.out.println("First derivative d/dx\n"+Calculus.compute(firstDerivativeX)+"\n");
         }
         //computing the first derivative of f, with respect to x
@@ -168,35 +171,9 @@ public class CalculusRunner {
         FunctionExpression temp =FunctionExpression.div(equationExample7(), FunctionExpression.exp(new Function("x","x",0),3.0));
         return FunctionExpression.div(temp,equationExample1());
     }
-
-    public static void derivativesExample(){
-        ArrayList<Double> startPoint=new ArrayList<Double>();
-        ArrayList<String> variables=new ArrayList<String>();
-        startPoint.add(-350.0);
-        variables.add("x");
-        startPoint.add(-250.0);
-        variables.add("y");
-        Calculus.setVariables(variables);
-        Calculus.setValues(startPoint);
-        //trasforms the function, ensuring a convex space for optimization
-        FunctionExpression functionExpression=Calculus.lengthOfGradient(equationExample7());
-        ArrayList<FunctionExpression> derivatives=Calculus.getDerivatives(functionExpression);
-
-
-        ArrayList<FunctionExpression> secondDerivativesByX=Calculus.getDerivatives(derivatives.get(0));
-        ArrayList<FunctionExpression> secondDerivativesByY=Calculus.getDerivatives(derivatives.get(1));
-        System.out.println("d/dx :"+Calculus.compute(derivatives.get(0)));
-        System.out.println("d/dy :"+Calculus.compute(derivatives.get(1)));
-        System.out.println("\nd(d/dx)/dx :"+Calculus.compute(secondDerivativesByX.get(0)));
-        System.out.println("d(d/dy)/dy :"+Calculus.compute(secondDerivativesByY.get(1)));
-        System.out.println("\nd(d/dx)/dy :"+Calculus.compute(secondDerivativesByX.get(1)));
-        System.out.println("d(d/dy)/dx :"+Calculus.compute(secondDerivativesByY.get(0)));
-
-    }
-
     public static void main(String[] args){
-        derivativeExample(equationExample6());
-        //derivativesExample();
-
+        FunctionExpression q = FunctionExpression.exp(new Function("x", "x", 0), 2);
+        derivativeExample(q);
+        
     }
 }
