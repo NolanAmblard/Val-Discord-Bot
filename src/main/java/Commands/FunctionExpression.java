@@ -16,6 +16,9 @@ public class FunctionExpression {
         this.right = null;
     }
 
+
+
+
     //Copy the original function
     public FunctionExpression copy() {
         Function f = this.function.copy();
@@ -35,6 +38,17 @@ public class FunctionExpression {
             i++;
             System.out.println("\nLevel " + i);
         }
+    }
+
+    public String print(FunctionExpression funcExp) {
+        String output = "";
+        if(funcExp != null) {
+            if(funcExp.function.expression.equals("const"))
+                return print(funcExp.left) + "" + funcExp.function.value + "" + print(funcExp.right);
+            else
+                return print(funcExp.left) + "" + funcExp.function.getExpression() + "" + print(funcExp.right);
+        }
+        return "";
     }
 
 
