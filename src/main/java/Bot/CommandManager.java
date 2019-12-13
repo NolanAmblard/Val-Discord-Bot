@@ -16,6 +16,7 @@ public class CommandManager {
 
         //LawrenceZhang
         addCommand(new Calculate());
+        addCommand(new SetTimer());
         //NolanAmblard
         addCommand(new Help());
         addCommand(new UserInfo());
