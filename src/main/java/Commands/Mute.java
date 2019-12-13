@@ -26,7 +26,7 @@ public class Mute implements Commands {
             Member target = event.getMessage().getMentionedMembers().get(0);
             Role muted = target.getGuild().getRolesByName("Muted", true).get(0);
             event.getGuild().addRoleToMember(target, muted).queue();
-            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been muted.").queue();
+            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getEffectiveName() + " has been muted.").queue();
         }
 
         if (message.length == 3) {
@@ -34,7 +34,7 @@ public class Mute implements Commands {
             //String duration = message[2];
             Member target = event.getMessage().getMentionedMembers().get(0);
             tempmute(target, parseTime(message[2]), parseTimeUnit(message[2]));
-            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been muted.").queue();
+            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getEffectiveName() + " has been muted.").queue();
         }
 
         if (message.length == 4) {
@@ -43,7 +43,7 @@ public class Mute implements Commands {
             String reason = message[3];
             Member target = event.getMessage().getMentionedMembers().get(0);
             tempmute(target, parseTime(message[2]), parseTimeUnit(message[2]));
-            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been muted. Reason: " + reason).queue();
+            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getEffectiveName() + " has been muted. Reason: " + reason).queue();
         }
     }
 
