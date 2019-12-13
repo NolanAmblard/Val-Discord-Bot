@@ -2,8 +2,11 @@
 package Commands;
 
 import Bot.Commands;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageHistory;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.util.*;
 
@@ -16,6 +19,8 @@ public class Calculate implements Commands {
         Message m = event.getMessage();
         String[] content = m.getContentRaw().toLowerCase().split(" ");
         MessageChannel channel = event.getChannel();
+        JDA jda = event.getJDA();
+        User val = jda.getSelfUser();
 
         try {
 
@@ -24,7 +29,7 @@ public class Calculate implements Commands {
             if (content.length == 2) {
                 String expression = content[1];
 
-                channel.sendMessage("" + expressionSolver(expression)).queue();
+                channel.sendMessage("" + expressionSolver(channel, val, expression)).queue();
             }
 
             //Else, if the content contains spaces
@@ -36,7 +41,7 @@ public class Calculate implements Commands {
                     expression.append(content[i]);
                 }
 
-                channel.sendMessage("" + expressionSolver(expression.toString())).queue();
+                channel.sendMessage("" + expressionSolver(channel, val, expression.toString())).queue();
             }
         }
         catch (Exception e) {
@@ -109,7 +114,9 @@ public class Calculate implements Commands {
     }
 
     //Expression Solver method for simplifying a String expression into a double
-    private static double expressionSolver(String expression) {
+    private double expressionSolver(MessageChannel channel, User self, String expression) {
+
+        boolean invalidCharacters = false;
 
         //Get the content
         String[] content = expression.split(" ");
@@ -174,6 +181,49 @@ public class Calculate implements Commands {
                 i -= 2;
 
                 numbers.push(Double.parseDouble(temp.toString()));
+            }
+
+            else if (Character.toString(characters[i]).equalsIgnoreCase("a")) {
+                StringBuilder temp = new StringBuilder();
+
+                int place;
+
+                for (place = i; place < i + 12; place += 2) {
+                    temp.append(characters[place]);
+                }
+
+                place -= 2;
+
+                if (temp.toString().equalsIgnoreCase("answer")) {
+                    MessageHistory history = new MessageHistory(channel);
+                    List<Message> messages = history.retrievePast(10).complete();
+
+                    i = place;
+
+                    String message = null;
+
+                    for (int j = 0; j < messages.size(); j++) {
+                        if (messages.get(j).getAuthor().getId().equalsIgnoreCase(self.getId())) {
+                            String messageRaw = history.getMessageById(messages.get(j).getId()).toString();
+
+                            message = messageRaw.substring(messageRaw.indexOf(":", 2) + 1, messageRaw.lastIndexOf("("));
+
+                            numbers.push(Double.parseDouble(message));
+
+                            break;
+                        }
+                    }
+
+                    if (message == null) {
+                        channel.sendMessage("There are invalid characters in the message.").queue();
+
+                        invalidCharacters = true;
+                    }
+                }
+            }
+
+            if (invalidCharacters) {
+                break;
             }
 
             //If the character is an open parentheses, we add it to the operator stack
