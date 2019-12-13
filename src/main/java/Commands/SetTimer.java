@@ -63,8 +63,6 @@ public class SetTimer implements Commands {
 //                System.out.println(endTime);
 //                System.out.println(currentTime);
 
-                //createTimer(author, channel, val, startTime, endTime);
-
                 String timer = createTimer(author, channel, val, startTime, endTime);
 
                 if (timer.equalsIgnoreCase("start")) {
@@ -112,8 +110,6 @@ public class SetTimer implements Commands {
                 MessageHistory history = new MessageHistory(channel);
                 List<Message> temp = history.retrievePast(10).complete();
 
-                //timerFunctions(author, channel, self, history, temp, currentTime);
-
                 String functions = timerFunctions(author, channel, self, history, temp, currentTime);
 
                 if (functions.equalsIgnoreCase("start")) {
@@ -148,12 +144,10 @@ public class SetTimer implements Commands {
             else if (i < startTime) {
 
                 //Troubleshooting
-                System.out.println("I've arrived here!");
+//                System.out.println("I've arrived here!");
 
                 MessageHistory history = new MessageHistory(channel);
                 List<Message> temp = history.retrievePast(10).complete();
-
-                //timerFunctions(author, channel, self, history, temp, currentTime);
 
                 String functions = timerFunctions(author, channel, self, history, temp, currentTime);
 
@@ -184,7 +178,19 @@ public class SetTimer implements Commands {
             String message = messageRaw.substring(messageRaw.indexOf(":", 2) + 1, messageRaw.lastIndexOf("("));
 
             //Troubleshooting
-            System.out.println(message);
+//            System.out.println(message);
+
+            if (!messages.get(j).getAuthor().getId().equalsIgnoreCase(self.getId())) {
+
+                try {
+                    createTimer(author, channel, self, currentTime);
+                }
+                catch (InterruptedException e) {
+                    channel.sendMessage("There was a problem with creating the timer.").queue();
+                }
+
+                return "start";
+            }
 
             if (messages.get(j).getAuthor().getId().equals(author.getId())) {
                 if (message.equalsIgnoreCase("check time") || message.equalsIgnoreCase("get time")) {
@@ -231,10 +237,10 @@ public class SetTimer implements Commands {
             if (messages.get(j).getAuthor().getId().equals(self.getId())) {
 
                 //Troubleshooting
-//                                System.out.println("Message Author ID: " + messages.get(j).getAuthor().getId());
-//                                System.out.println("Val ID: " + val.getId());
-//                                System.out.println("Message ID: " + id);
-//                                System.out.println("Message: " + message);
+//                System.out.println("Message Author ID: " + messages.get(j).getAuthor().getId());
+//                System.out.println("Val ID: " + self.getId());
+//                System.out.println("Message ID: " + id);
+//                System.out.println("Message: " + message);
 
                 channel.editMessageById(id, convertTimeToString(currentTime)).queue();
 
@@ -255,7 +261,6 @@ public class SetTimer implements Commands {
         int multiplier = (int) Math.pow(60, (times.length - 1));
 
         for (String s : times) {
-            System.out.println(s);
             time += (int) Math.round(Double.parseDouble(s)) * multiplier;
             multiplier /= 60;
         }
