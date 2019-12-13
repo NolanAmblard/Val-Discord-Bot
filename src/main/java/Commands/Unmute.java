@@ -26,7 +26,7 @@ public class Unmute implements Commands {
             Member target = event.getMessage().getMentionedMembers().get(0);
             Role muted = target.getGuild().getRolesByName("Muted", true).get(0);
             event.getGuild().removeRoleFromMember(target, muted).queue();
-            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getNickname() + " has been unmuted.").queue();
+            event.getChannel().sendMessage("User " + event.getMessage().getMentionedMembers().get(0).getEffectiveName() + " has been unmuted.").queue();
         }
     }
 
