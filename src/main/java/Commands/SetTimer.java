@@ -363,6 +363,10 @@ public class SetTimer implements Commands {
     private String convertTimeToString(int time) {
         
         String timeToString;
+        String minutes;
+        String seconds;
+
+        String[] temp;
 
         if (time == 0) {
             return "00:00:00";
@@ -373,12 +377,10 @@ public class SetTimer implements Commands {
                  timeToString = "00:00:" + time;
             }
             else {
-                String minutes = Double.toString( (double) time / 60);
-
-                String seconds;
+                minutes = Double.toString( (double) time / 60);
 
                 if (minutes.contains(".")) {
-                    String[] temp = minutes.split("[.]");
+                    temp = minutes.split("[.]");
 
                     seconds = Double.toString(Math.round(Double.parseDouble("0." + temp[1]) * 60));
 
@@ -415,16 +417,13 @@ public class SetTimer implements Commands {
         //Troubleshooting
 //        System.out.println(hours);
 
-        String minutes;
-        String seconds;
-
         if (hours.contains(".")) {
-            String[] temp1 = hours.split("[.]");
+            temp = hours.split("[.]");
 
             //Troubleshooting
 //            System.out.println(temp1);
 
-            minutes = Double.toString(Double.parseDouble("0." + temp1[1]) * 60);
+            minutes = Double.toString(Double.parseDouble("0." + temp[1]) * 60);
 
             if (minutes.substring(0, 2).equals("60")) {
                 minutes = "00" + minutes.substring(2);
@@ -436,9 +435,9 @@ public class SetTimer implements Commands {
             }
 
             if (minutes.contains(".")) {
-                String[] temp2 = minutes.split("[.]");
+                temp = minutes.split("[.]");
 
-                seconds = Double.toString(Math.round(Double.parseDouble("0." + temp2[1]) * 60));
+                seconds = Double.toString(Math.round(Double.parseDouble("0." + temp[1]) * 60));
 
                 if (seconds.substring(0, 2).equals("60")) {
                     seconds = "00" + seconds.substring(2);
