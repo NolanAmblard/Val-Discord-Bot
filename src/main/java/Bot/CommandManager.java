@@ -3,7 +3,6 @@ package Bot;
 
 import java.util.*;
 import java.util.regex.Pattern;
-
 import Commands.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
@@ -14,10 +13,10 @@ public class CommandManager {
 
     CommandManager() {
 
-        //LawrenceZhang
+        //Lawrence Zhang
         addCommand(new Calculate());
         addCommand(new SetTimer());
-        //NolanAmblard
+        //Nolan Amblard
         addCommand(new Help());
         addCommand(new UserInfo());
     }
