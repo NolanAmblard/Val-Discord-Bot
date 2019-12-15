@@ -145,6 +145,7 @@ public class CalculusRunner implements Commands {
         Stack<FunctionExpression> numbers = new Stack<>();
         Stack<Character> operators = new Stack<>();
         ArrayList<String> variables = new ArrayList<>();
+        variables.add(wrt);
         
         for (int i = 0; i < characters.length; i++) {
 
