@@ -11,13 +11,13 @@ import net.dv8tion.jda.api.entities.MessageHistory;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.util.*;
-public class CalculusRunner {
+public class CalculusRunner implements Commands {
      @Override
     public void execute(List<String> args, MessageReceivedEvent event) {
 
         Message m = event.getMessage();
-        String[] content = m.getContentRaw().substring(0, m.getContentRaw.indexOf(";")).toLowerCase().split(" ");
-        String[] rest = m.getContentRaw().substring(m.getContentRaw.indexOf(";") + 2).toLowerCase().split(" ");
+        String[] content = m.getContentRaw().substring(0, m.getContentRaw().indexOf(";")).toLowerCase().split(" ");
+        String[] rest = m.getContentRaw().substring(m.getContentRaw().indexOf(";") + 2).toLowerCase().split(" ");
         ArrayList<Double> values = new ArrayList<>();
         for(int i = 0; i < rest.length - 1; i++) {
             values.add(Double.parseDouble(rest[i]));
@@ -25,7 +25,7 @@ public class CalculusRunner {
         MessageChannel channel = event.getChannel();
         JDA jda = event.getJDA();
         User val = jda.getSelfUser();
-        String wrt = m.getContentRaw().substring(m.getContentRaw.length() - 1).toLowerCase();
+        String wrt = m.getContentRaw().substring(m.getContentRaw().length() - 1).toLowerCase();
 
         try {
 
@@ -149,10 +149,10 @@ public class CalculusRunner {
         for (int i = 0; i < characters.length; i++) {
 
             //Troubleshooting
-//            if (i % 2 == 0) {
-//                System.out.println(numbers);
-//                System.out.println(operators);
-//            }
+            if (i % 2 == 0) {
+                System.out.println(numbers);
+                System.out.println(operators);
+            }
 
             //If the character in the Array is a space, we skip it
             if (characters[i] == ' ') {

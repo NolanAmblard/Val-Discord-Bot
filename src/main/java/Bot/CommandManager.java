@@ -20,6 +20,8 @@ public class CommandManager {
         //NolanAmblard
         addCommand(new Help());
         addCommand(new UserInfo());
+        //Raunakk Chandhoke
+        addCommand(new CalculusRunner());
     }
 
     //Add Command method which adds a command to the commands map
