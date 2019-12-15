@@ -68,23 +68,23 @@ public class CalculusRunner implements Commands {
     //Division
     //Multiplication
     //Powers
-    private static FunctionExpression derivative(FunctionExpression left, String operator, FunctionExpression right) {
-        FunctionExpression result = new FunctionExpression(new Function(operator));
+    private static FunctionExpression derivative(FunctionExpression left, char operator, FunctionExpression right) {
+        FunctionExpression result = new FunctionExpression(left, new Function(Character.toString(operator)), right);
 
         switch (operator) {
-            case "^":
+            case '^':
                 result = result.exp(left, right);
                 break;
-            case "*":
+            case '*':
                 result = result.product(left, right);
                 break;
-            case "/":
+            case '/':
                 result = result.div(left, right);
                 break;
-            case "+":
+            case '+':
                 result = result.sum(left, right);
                 break;
-            case "-":
+            case '-':
                 result = result.sub(left, right);
                 break;
         }
@@ -93,18 +93,18 @@ public class CalculusRunner implements Commands {
     }
 
     //Order of Operations method for operator precedence
-    private static int orderOfOperations(String operator) {
+    private static int orderOfOperations(char operator) {
         switch (operator) {
-            case "(":
-            case ")":
+            case '(':
+            case ')':
                 return 0;
-            case "^":
+            case '^':
                 return 1;
-            case "*":
-            case "/":
+            case '*':
+            case '/':
                 return 2;
-            case "+":
-            case "-":
+            case '+':
+            case '-':
                 return 3;
         }
 
@@ -143,7 +143,7 @@ public class CalculusRunner implements Commands {
         char[] characters = expressionBuilder.toString().toCharArray();
 
         Stack<FunctionExpression> numbers = new Stack<>();
-        Stack<String> operators = new Stack<>();
+        Stack<Character> operators = new Stack<>();
         ArrayList<String> variables = new ArrayList<>();
         
         for (int i = 0; i < characters.length; i++) {
@@ -182,7 +182,7 @@ public class CalculusRunner implements Commands {
                 numbers.push(new FunctionExpression(new Function("const", "/", Double.parseDouble(temp.toString()))));
             }
             
-            else if(characters[i] >= 97 && characters[i] <= 122) {
+            else if(characters[i] >= 'a' && characters[i] <= 'z') {
                 for(int j = 0; j < variables.size(); j++) {
                     if(Character.toString(characters[i]).equalsIgnoreCase(variables.get(j)))
                         break;
@@ -190,7 +190,7 @@ public class CalculusRunner implements Commands {
                         variables.add(Character.toString(characters[i]));
                 }
                 
-                numbers.push(new FunctionExpression(new Function(Character.toString(characters[i]))));
+                numbers.push(new FunctionExpression(new Function(Character.toString(characters[i]), Character.toString(characters[i]), 0)));
                 
             }
 
@@ -219,7 +219,7 @@ public class CalculusRunner implements Commands {
 
                             message = messageRaw.substring(messageRaw.indexOf(":", 2) + 1, messageRaw.lastIndexOf("("));
 
-                            numbers.push(new FunctionExpression(new Function(message.toString())));
+                            numbers.push(new FunctionExpression(new Function(message)));
 
                             break;
                         }
@@ -239,15 +239,15 @@ public class CalculusRunner implements Commands {
 
             //If the character is an open parentheses, we add it to the operator stack
             else if (characters[i] == '(') {
-                operators.push(Character.toString(characters[i]));
+                operators.push(characters[i]);
             }
 
             //If the character is a closed parentheses, we pop off each operator in the operator stack until we reach an open parentheses
             //Pop off the first 2 numbers in the value stack and evaluate everything until you reach the open parentheses
             //add the result back into the number stack
             else if (characters[i] == ')') {
-                while (!(operators.peek().equals('('))) {
-                    String operator = operators.pop();
+                while (operators.peek() != '(') {
+                    char operator = operators.pop();
                     FunctionExpression num2 = numbers.pop();
                     FunctionExpression num1 = numbers.pop();
 
@@ -261,22 +261,22 @@ public class CalculusRunner implements Commands {
             //If it has greater precedence, then use it to evaluate the expression with the top two numbers of the value stack
             //Then push the result back onto the value stack
             else if (Arrays.asList('^', '*', '/', '+', '-').contains(characters[i])) {
-                while (!operators.isEmpty() && !(operators.peek().equals('(')) && orderOfOperations(operators.peek()) <= orderOfOperations(Character.toString(characters[i]))) {
-                    String operator = operators.pop();
+                while (!operators.isEmpty() && operators.peek() != '(' && orderOfOperations(operators.peek()) <= orderOfOperations(characters[i])) {
+                    char operator = operators.pop();
                     FunctionExpression num2 = numbers.pop();
                     FunctionExpression num1 = numbers.pop();
 
                     numbers.push(derivative(num1, operator, num2));
                 }
 
-                operators.push(Character.toString(characters[i]));
+                operators.push(characters[i]);
             }
         }
 
         //If there are any more expressions left
         //Pop off the first operator and the two numbers of their respective stacks and evaluate them
         while (!operators.isEmpty()) {
-            String operator = operators.pop();
+            char operator = operators.pop();
             FunctionExpression num2 = numbers.pop();
             FunctionExpression num1 = numbers.pop();
 
