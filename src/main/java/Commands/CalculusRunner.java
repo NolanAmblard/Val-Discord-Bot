@@ -79,7 +79,7 @@ public class CalculusRunner implements Commands {
                 result = result.product(left, right);
                 break;
             case '/':
-                result = result.div(left, right);
+                result = result.product(left, FunctionExpression.exp(right, -1.0));
                 break;
             case '+':
                 result = result.sum(left, right);
@@ -146,7 +146,6 @@ public class CalculusRunner implements Commands {
         Stack<Character> operators = new Stack<>();
         ArrayList<String> variables = new ArrayList<>();
         variables.add(wrt);
-        
         for (int i = 0; i < characters.length; i++) {
 
             //Troubleshooting
