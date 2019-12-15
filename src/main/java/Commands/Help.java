@@ -1,5 +1,6 @@
-package Commands;
 //Nolan Amblard did this
+package Commands;
+
 import Bot.Commands;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
