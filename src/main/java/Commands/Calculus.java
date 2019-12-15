@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Commands;
 
 import java.util.ArrayList;
@@ -25,7 +30,7 @@ public class Calculus {
         return 0;
     }
 
-    //Returns length of the gradient of a function, as a function
+    //Transforms the function in a way for which it can be used for convex optimization  
     public static FunctionExpression lengthOfGradient(FunctionExpression funcExp) {
         ArrayList<FunctionExpression> derivatives = getDerivatives(funcExp);
         FunctionExpression grad = null;
@@ -55,7 +60,7 @@ public class Calculus {
         if(funcExp == null)
             return 0;
         if(variables == null) {
-            System.out.println("Error: variables haven't been set yet");
+            System.out.println("The variables haven't been set yet!");
             return 0;
         }
         Stack<Function> temp = stack;
@@ -134,7 +139,7 @@ public class Calculus {
         else if(funcExp.function.expression.equals("^")) {
             if(funcExp.right.function.expression.equals("const")) {
                 if(funcExp.right.function.value == 0)
-                    return null;
+                    return new FunctionExpression(new Function("const", "/", 0.0));
                 FunctionExpression muliEx = FunctionExpression.exp(funcExp.left.copy(), new Function("const", "/", funcExp.right.function.value - 1));
                 FunctionExpression exp = FunctionExpression.product(muliEx, new Function("const", "/", funcExp.right.function.value));
                 FunctionExpression f = computeDerivative(wrt, funcExp.left);
@@ -218,7 +223,7 @@ public class Calculus {
         return (x.equals("+") || x.equals("-") || x.equals("*") || x.equals("/") || x.equals("^"));
     }
 
-    //getter and setter methods that could be useful
+    //getter and setter methods
     public static ArrayList<String> getVariables() {
         return variables;
     }
