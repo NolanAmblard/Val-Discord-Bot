@@ -115,8 +115,8 @@ public class SetTimer implements Commands {
 
                 String times = stringBuilder.toString();
 
-                boolean hasMinutes = times.contains("minute") || times.contains("min") || times.equalsIgnoreCase("m");
-                boolean hasSeconds = times.contains("second") || times.contains("sec") || times.equalsIgnoreCase("s");
+                boolean hasMinutes = times.contains("minute") || times.contains("min") || times.contains("m");
+                boolean hasSeconds = times.contains("second") || times.contains("sec") || times.contains("s");
 
                 if (times.contains("hour") || times.contains("hr") || times.equalsIgnoreCase("h")) {
                     if (hasMinutes && hasSeconds) {
@@ -384,17 +384,23 @@ public class SetTimer implements Commands {
 
                     seconds = Double.toString(Math.round(Double.parseDouble("0." + temp[1]) * 60));
 
-                    if (seconds.substring(0, 2).equals("60")) {
-                        seconds = "00" + seconds.substring(2);
-                        minutes = Double.toString(Double.parseDouble(minutes) + 1);
+                    if (Double.parseDouble(minutes) == 0) {
+                        minutes = "00";
                     }
-
-                    if (Double.parseDouble(minutes) < 10) {
+                    else if (Double.parseDouble(minutes) < 10) {
                         minutes = "0" +  minutes;
                     }
 
-                    if (Double.parseDouble(seconds) < 10) {
+                    if (Double.parseDouble(seconds) == 0) {
+                        seconds = "00";
+                    }
+                    else if (Double.parseDouble(seconds) < 10) {
                         seconds = "0" + seconds;
+                    }
+
+                    if (seconds.substring(0, 2).equals("60")) {
+                        seconds = "00" + seconds.substring(2);
+                        minutes = Double.toString(Double.parseDouble(minutes) + 1);
                     }
 
                     timeToString = "00:" + minutes.substring(0, 2) + ":" + seconds.substring(0, 2);
@@ -439,8 +445,22 @@ public class SetTimer implements Commands {
 
                 seconds = Double.toString(Math.round(Double.parseDouble("0." + temp[1]) * 60));
 
+                if (Double.parseDouble(minutes) == 0) {
+                    minutes = "00";
+                }
+                else if (Double.parseDouble(minutes) < 10) {
+                    minutes = "0" +  minutes;
+                }
+
+                if (Double.parseDouble(seconds) == 0) {
+                    seconds = "00";
+                }
+                else if (Double.parseDouble(seconds) < 10) {
+                    seconds = "0" + seconds;
+                }
+
                 if (seconds.substring(0, 2).equals("60")) {
-                    seconds = "00" + seconds.substring(2);
+                    seconds = "00";
                     minutes = Double.toString(Double.parseDouble(minutes) + 1);
                 }
 
@@ -449,19 +469,7 @@ public class SetTimer implements Commands {
                     hours = Double.toString(Double.parseDouble(hours) + 1);
                 }
 
-                if (Double.parseDouble(minutes) < 10) {
-                    minutes = "0" +  minutes;
-                }
-
-                if (Double.parseDouble(seconds) < 10) {
-                    seconds = "0" + seconds;
-                }
-
                 timeToString = hours.substring(0, hours.indexOf(".")) + ":" + minutes.substring(0, 2) + ":" + seconds.substring(0, 2);
-
-                if (timeToString.length() < 8) {
-                    timeToString = timeToString.substring(0, timeToString.lastIndexOf(":")) + ":0" + timeToString.substring(timeToString.length() - 1);
-                }
             }
             else {
                 if (minutes.substring(0, minutes.indexOf(".")).length() == 1) {
