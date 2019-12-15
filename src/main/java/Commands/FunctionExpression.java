@@ -2,7 +2,7 @@ package Commands;
 
 //Created by Raunakk Chandhoke
 //This is able to handle more complex functions and can do operations with them
-
+//It builds off of simple functions to create more complicated functions
 public class FunctionExpression {
     //For performing operations with functions
     FunctionExpression left;
@@ -15,9 +15,6 @@ public class FunctionExpression {
         this.left = null;
         this.right = null;
     }
-
-
-
 
     //Copy the original function
     public FunctionExpression copy() {
@@ -38,17 +35,6 @@ public class FunctionExpression {
             i++;
             System.out.println("\nLevel " + i);
         }
-    }
-
-    public String print(FunctionExpression funcExp) {
-        String output = "";
-        if(funcExp != null) {
-            if(funcExp.function.expression.equals("const"))
-                return print(funcExp.left) + "" + funcExp.function.value + "" + print(funcExp.right);
-            else
-                return print(funcExp.left) + "" + funcExp.function.getExpression() + "" + print(funcExp.right);
-        }
-        return "";
     }
 
 
