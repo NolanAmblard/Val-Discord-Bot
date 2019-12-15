@@ -43,11 +43,7 @@ public class Function {
             System.out.println("Compose: " + compose);
     }
 
-    public String getExpression() {
-        return expression;
-    }
-
-    //Evaluates functions; how to add more possible functions
+    //Evaluates functions; how to add more possible functions the code can evaluate
     public double evaluate() {
         double value = 0;
         if(var.equals("/"))
