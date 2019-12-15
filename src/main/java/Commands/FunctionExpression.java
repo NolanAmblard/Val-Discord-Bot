@@ -9,11 +9,17 @@ public class FunctionExpression {
     FunctionExpression right;
     Function function;
 
-    //Constructor
+    //Constructors
     public FunctionExpression(Function function) {
         this.function = function;
         this.left = null;
         this.right = null;
+    }
+    
+    public FunctionExpression(FunctionExpression l, Function func, FunctionExpression r) {
+        left = l;
+        function = func;
+        right = r;
     }
 
     //Copy the original function
