@@ -1,179 +1,302 @@
 package Commands;
 
-//Created by Raunakk Chandhoke
-//Runner File for Calculus
-import java.util.ArrayList;
+//File that takes in the expression by the user and finds its derivative
+//Created by Raunakk Chandhoke, but relies on Lawrence Zhang's expression parser
+//for his calculate command to read in expressions
+import Bot.Commands;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageHistory;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import java.util.*;
 public class CalculusRunner {
+     @Override
+    public void execute(List<String> args, MessageReceivedEvent event) {
 
+        Message m = event.getMessage();
+        String[] content = m.getContentRaw().substring(0, m.getContentRaw.indexOf(";")).toLowerCase().split(" ");
+        String[] rest = m.getContentRaw().substring(m.getContentRaw.indexOf(";") + 2).toLowerCase().split(" ");
+        ArrayList<Double> values = new ArrayList<>();
+        for(int i = 0; i < rest.length - 1; i++) {
+            values.add(Double.parseDouble(rest[i]));
+        }
+        MessageChannel channel = event.getChannel();
+        JDA jda = event.getJDA();
+        User val = jda.getSelfUser();
+        String wrt = m.getContentRaw().substring(m.getContentRaw.length() - 1).toLowerCase();
 
-    // (y^(0.5)*x^(1.5) + y^(2.2)*x^(-0.7))^(-2.6)
-    public static FunctionExpression equationExample1(){
-        FunctionExpression Q1=FunctionExpression.exp(new Function("y","y",0),0.5);
-        FunctionExpression Q2=FunctionExpression.exp(new Function("x","x",0),1.5);
-        Q1=FunctionExpression.product(Q1, Q2);
+        try {
 
-        FunctionExpression a1=FunctionExpression.exp(new Function("y","y",0),2.2);
-        FunctionExpression a2=FunctionExpression.exp(new Function("x","x",0),-0.7);
-        a1=FunctionExpression.product(a1, a2);
-        a1=FunctionExpression.sum(Q1, a1);
-        return FunctionExpression.exp(a1, -2.6);
+            //If the content doesn't contain any spaces
+            //append the string that contains the expression
+            if (content.length == 2) {
+                String expression = content[1];
+
+                
+                channel.sendMessage("" + expressionSolver(channel, val, expression, values, wrt)).queue();
+            }
+
+            //Else, if the content contains spaces
+            //append each section of the expression into a string
+            else if (content.length > 2) {
+                StringBuilder expression = new StringBuilder();
+
+                for (int i = 1; i < content.length; i++) {
+                    expression.append(content[i]);
+                }
+
+                channel.sendMessage("" + expressionSolver(channel, val, expression.toString(), values, wrt)).queue();
+            }
+        }
+        catch (Exception e) {
+            channel.sendMessage("The operation includes invalid symbols.").queue();
+            channel.sendMessage("The error received is: " + e.getMessage()).queue();
+        }
     }
 
-    // (ln(y)^(0.5)*ln(x)^(1.5) + ln(y)^(2.2)*ln(x)^(-0.7))^(-2.6)
-    public static FunctionExpression equationExample2(){
-        FunctionExpression Q1=FunctionExpression.exp(new Function("ln","y",0),0.5);
-        FunctionExpression Q2=FunctionExpression.exp(new Function("ln","x",0),1.5);
-        Q1=FunctionExpression.product(Q1, Q2);
-
-        FunctionExpression a1=FunctionExpression.exp(new Function("ln","y",0),2.2);
-        FunctionExpression a2=FunctionExpression.exp(new Function("ln","x",0),-0.7);
-        a1=FunctionExpression.product(a1, a2);
-        a1=FunctionExpression.sum(Q1, a1);
-        return FunctionExpression.exp(a1, -2.6);
-    }
-    // ((ln(y)^(0.5)*ln(x)^(1.5) + ln(y)^(2.2)*ln(x)^(-0.7))^(-2.6) + (y^(0.5)*x^(1.5) + y^(2.2)*x^(-0.7))^(-2.6) )^(4.2)
-    public static FunctionExpression equationExample3(){
-        FunctionExpression a= FunctionExpression.sum(equationExample1(),equationExample2());
-        return FunctionExpression.exp(a,4.2);
-    }
-    //sin(cos( (y^(0.5)*x^(1.5) + y^(2.2)*x^(-0.7))^(-2.6) )^(-2.5))
-    public static FunctionExpression equationExample4(){
-        Function s=new Function("cos", "~", 0);
-        FunctionExpression Q1=FunctionExpression.exp(new Function("y","y",0),0.5);
-        FunctionExpression Q2=FunctionExpression.exp(new Function("x","x",0),1.5);
-        Q1=FunctionExpression.product(Q1, Q2);
-        s.compose=equationExample1();
-        FunctionExpression a=FunctionExpression.exp(s, -2.5);
-        Function d=new Function("sin", "~", 0);
-        d.compose=a;
-        return new FunctionExpression(d);
-    }
-    // (y^(2.3)+x^(4.1))(y^(1.9)+x^(-4.7))
-    public static FunctionExpression equationExample5(){
-        FunctionExpression Q1=FunctionExpression.exp(new Function("y","y",0),2.3);
-        FunctionExpression Q2=FunctionExpression.exp(new Function("x","x",0),4.1);
-        Q1=FunctionExpression.sum(Q1, Q2);
-
-        FunctionExpression a1=FunctionExpression.exp(new Function("y","y",0),1.9);
-        FunctionExpression a2=FunctionExpression.exp(new Function("x","x",0),-4.7);
-        a1=FunctionExpression.sum(a1, a2);
-        a1=FunctionExpression.product(Q1, a1);
-        return a1;
-    }
-    // sin( sin(cos( (y^(0.5)*x^(1.5) + y^(2.2)*x^(-0.7))^(-2.6) )^(-2.5) ) + cos((y^(2.3)+x^(4.1))(y^(1.9)+x^(-4.7))) )
-    public static FunctionExpression equationExample6(){
-        Function d=new Function("cos", "~", 0);
-        d.compose=equationExample5();
-        FunctionExpression t=FunctionExpression.sum(equationExample4(), d);
-        Function e=new Function("sin", "~", 0);
-        e.compose=t;
-        return new FunctionExpression(e);
+    //Returns the keyword to the Command Manager so it can run the method when this string is used
+    @Override
+    public String getKeyword() {
+        return "Derivative";
     }
 
+    //Calculate method for basic operator functions
+    //Addition
+    //Subtraction
+    //Division
+    //Multiplication
+    //Powers
+    private static FunctionExpression derivative(FunctionExpression left, String operator, FunctionExpression right) {
+        FunctionExpression result = new FunctionExpression(new Function(operator));
 
-    public static void derivativeExample(FunctionExpression functionExpression){
-        //define variables that will be used
-        ArrayList<String> variables=new ArrayList<String>();
-        ArrayList<Double> values=new ArrayList<Double>();
-        values.add(1.0);
-        variables.add("x");
-        values.add(1.0);
-        variables.add("y");
-        //machine that handles computations
+        switch (operator) {
+            case "^":
+                result = result.exp(left, right);
+                break;
+            case "*":
+                result = result.product(left, right);
+                break;
+            case "/":
+                result = result.div(left, right);
+                break;
+            case "+":
+                result = result.sum(left, right);
+                break;
+            case "-":
+                result = result.sub(left, right);
+                break;
+        }
+
+        return result;
+    }
+
+    //Order of Operations method for operator precedence
+    private static int orderOfOperations(String operator) {
+        switch (operator) {
+            case "(":
+            case ")":
+                return 0;
+            case "^":
+                return 1;
+            case "*":
+            case "/":
+                return 2;
+            case "+":
+            case "-":
+                return 3;
+        }
+
+        return -1;
+    }
+
+    //Expression Solver method for simplifying a String expression into a double
+    private String expressionSolver(MessageChannel channel, User self, String expression, ArrayList<Double> values, String wrt) {
+
+        boolean invalidCharacters = false;
+
+        //Get the content
+        String[] content = expression.split(" ");
+
+        StringBuilder expressionBuilder = new StringBuilder();
+
+        for (String s : content) {
+            expressionBuilder.append(s);
+        }
+
+        expression = expressionBuilder.toString();
+
+        expressionBuilder = new StringBuilder();
+
+        //Spaces out the expressionBuilder so that each character is separated by a String
+        for (int i = 0; i < expression.length(); i++) {
+
+            if (i > 0) {
+                expressionBuilder.append(" ");
+            }
+
+            expressionBuilder.append(expression.charAt(i));
+        }
+
+        //Converting the expressionBuilder to a Character Array so that we can read in each individual operator and number
+        char[] characters = expressionBuilder.toString().toCharArray();
+
+        Stack<FunctionExpression> numbers = new Stack<>();
+        Stack<String> operators = new Stack<>();
+        ArrayList<String> variables = new ArrayList<>();
+        
+        for (int i = 0; i < characters.length; i++) {
+
+            //Troubleshooting
+//            if (i % 2 == 0) {
+//                System.out.println(numbers);
+//                System.out.println(operators);
+//            }
+
+            //If the character in the Array is a space, we skip it
+            if (characters[i] == ' ') {
+                continue;
+            }
+
+            //Checks if the character is a number, negative sign, or decimal point
+            if ((characters[i] == '-' && (i == 0 || (i >= 2 && Arrays.asList('^', '*', '/', '+', '-', '(').contains(characters[i - 2]))) && (i < characters.length - 2 && (characters[i + 2] >= '0' || characters[i + 2] <= '9'))) || (characters[i] == '.') || (characters[i] >= '0' && characters[i] <= '9')) {
+                StringBuilder temp = new StringBuilder();
+
+                //Incrementing i by 2 because every other position in the Array will be a space
+                //In case the character is a negative sign, we want to account for that only once
+                //Because a negative sign can only be at the front of the number, we don't want to include this in the while loop or it might append a minus operator
+                if (characters[i] == '-') {
+                    temp.append(characters[i]);
+                    i += 2;
+                }
+
+                while (i < characters.length && ((characters[i] == '.') || (characters[i] >= '0' && characters[i] <= '9'))) {
+                    temp.append(characters[i]);
+                    i += 2;
+                }
+
+                //Decrement i so that it is back in the correct position (would be one position more because of the way the while loop is constructed
+                i -= 2;
+
+                numbers.push(new FunctionExpression(new Function("const", "/", Double.parseDouble(temp.toString()))));
+            }
+            
+            else if(characters[i] >= 97 && characters[i] <= 122) {
+                for(int j = 0; j < variables.size(); j++) {
+                    if(Character.toString(characters[i]).equalsIgnoreCase(variables.get(j)))
+                        break;
+                    else
+                        variables.add(Character.toString(characters[i]));
+                }
+                
+                numbers.push(new FunctionExpression(new Function(Character.toString(characters[i]))));
+                
+            }
+
+            else if (Character.toString(characters[i]).equalsIgnoreCase("a")) {
+                StringBuilder temp = new StringBuilder();
+
+                int place;
+
+                for (place = i; place < i + 12; place += 2) {
+                    temp.append(characters[place]);
+                }
+
+                place -= 2;
+
+                if (temp.toString().equalsIgnoreCase("answer")) {
+                    MessageHistory history = new MessageHistory(channel);
+                    List<Message> messages = history.retrievePast(10).complete();
+
+                    i = place;
+
+                    String message = null;
+
+                    for (int j = 0; j < messages.size(); j++) {
+                        if (messages.get(j).getAuthor().getId().equalsIgnoreCase(self.getId())) {
+                            String messageRaw = history.getMessageById(messages.get(j).getId()).toString();
+
+                            message = messageRaw.substring(messageRaw.indexOf(":", 2) + 1, messageRaw.lastIndexOf("("));
+
+                            numbers.push(new FunctionExpression(new Function(message.toString())));
+
+                            break;
+                        }
+                    }
+
+                    if (message == null) {
+                        channel.sendMessage("There are invalid characters in the message.").queue();
+
+                        invalidCharacters = true;
+                    }
+                }
+            }
+
+            if (invalidCharacters) {
+                break;
+            }
+
+            //If the character is an open parentheses, we add it to the operator stack
+            else if (characters[i] == '(') {
+                operators.push(Character.toString(characters[i]));
+            }
+
+            //If the character is a closed parentheses, we pop off each operator in the operator stack until we reach an open parentheses
+            //Pop off the first 2 numbers in the value stack and evaluate everything until you reach the open parentheses
+            //add the result back into the number stack
+            else if (characters[i] == ')') {
+                while (!(operators.peek().equals('('))) {
+                    String operator = operators.pop();
+                    FunctionExpression num2 = numbers.pop();
+                    FunctionExpression num1 = numbers.pop();
+
+                    numbers.push(derivative(num1, operator, num2));
+                }
+
+                operators.pop();
+            }
+
+            //If the character is an operator, then check its precedence with orderOfOperations with the operator on the top of the operator stack
+            //If it has greater precedence, then use it to evaluate the expression with the top two numbers of the value stack
+            //Then push the result back onto the value stack
+            else if (Arrays.asList('^', '*', '/', '+', '-').contains(characters[i])) {
+                while (!operators.isEmpty() && !(operators.peek().equals('(')) && orderOfOperations(operators.peek()) <= orderOfOperations(Character.toString(characters[i]))) {
+                    String operator = operators.pop();
+                    FunctionExpression num2 = numbers.pop();
+                    FunctionExpression num1 = numbers.pop();
+
+                    numbers.push(derivative(num1, operator, num2));
+                }
+
+                operators.push(Character.toString(characters[i]));
+            }
+        }
+
+        //If there are any more expressions left
+        //Pop off the first operator and the two numbers of their respective stacks and evaluate them
+        while (!operators.isEmpty()) {
+            String operator = operators.pop();
+            FunctionExpression num2 = numbers.pop();
+            FunctionExpression num1 = numbers.pop();
+
+            numbers.push(derivative(num1, operator, num2));
+        }
+
+        //Return whatever is left in the value stack (which will be the result of your completely evaluated expression)
+        Collections.sort(variables);
         Calculus.setVariables(variables);
         Calculus.setValues(values);
-
-        FunctionExpression f=functionExpression;
-        //simplifying the expression
-        f=FunctionExpression.simplifyExpression(f);
-        //printing the expression tree, by level
-        //f.printByLevel();
-        //f evaluated at specified point
-        //f.printByLevel();
-        //computing the first derivative od f, with respect to x
-        System.out.println(f.print(f));
-        FunctionExpression firstDerivativeX = Calculus.computeDerivative("x", f);
-        if(firstDerivativeX != null){
-            firstDerivativeX = FunctionExpression.simplifyExpression(firstDerivativeX);
-            //firstDerivativeX.printByLevel();
-            System.out.println("First derivative d/dx\n"+Calculus.compute(firstDerivativeX)+"\n");
+        FunctionExpression f = numbers.pop();
+        f = FunctionExpression.simplifyExpression(f);
+        FunctionExpression derivative = Calculus.computeDerivative(wrt, f);
+        if(derivative != null) {
+            derivative = FunctionExpression.simplifyExpression(derivative);
+            return "" + Calculus.compute(derivative);
         }
-        //computing the first derivative of f, with respect to x
-        FunctionExpression firstDerivativeY=Calculus.computeDerivative("y", f);
-        if(firstDerivativeY!=null){
-            firstDerivativeY=FunctionExpression.simplifyExpression(firstDerivativeY);
-            //f.printByLevel();
-            System.out.println("First derivative d/dy\n"+Calculus.compute(firstDerivativeY)+"\n");
-        }
-
-        FunctionExpression secondDerivativeXX=null;
-        if(firstDerivativeX!=null) secondDerivativeXX=Calculus.computeDerivative("x", firstDerivativeX);
-        if(secondDerivativeXX!=null){
-            secondDerivativeXX=FunctionExpression.simplifyExpression(secondDerivativeXX);
-            //f.printByLevel();
-            System.out.println("Second derivative d(d/dx)/dx\n"+Calculus.compute(secondDerivativeXX)+"\n");
-        }
-
-        FunctionExpression secondDerivativeYY=null;
-        if(firstDerivativeY!=null) secondDerivativeYY=Calculus.computeDerivative("y", firstDerivativeY);
-        if(secondDerivativeYY!=null){
-            secondDerivativeYY=FunctionExpression.simplifyExpression(secondDerivativeYY);
-            //secondDerivativeYY.printByLevel();
-            System.out.println("Second derivative d(d/dy)/dy\n"+Calculus.compute(secondDerivativeYY)+"\n");
-        }
-
-
-        FunctionExpression secondDerivativeXY=null;
-        if(firstDerivativeX!=null) secondDerivativeXY=Calculus.computeDerivative("y", firstDerivativeX);
-        if(secondDerivativeXY!=null){
-            secondDerivativeXY=FunctionExpression.simplifyExpression(secondDerivativeXY);
-            //f.printByLevel();
-            System.out.println("Mixed second derivative d(d/dx)/dy\n"+Calculus.compute(secondDerivativeXY));
-        }
-
-        FunctionExpression thirdDerivativeXXX=null;
-        if(secondDerivativeXX!=null) thirdDerivativeXXX=Calculus.computeDerivative("x", secondDerivativeXX);
-        if(thirdDerivativeXXX!=null){
-            thirdDerivativeXXX=FunctionExpression.simplifyExpression(thirdDerivativeXXX);
-            //f.printByLevel();
-            System.out.println("\nThird derivative d(d(d/dx)/dx)/dx\n"+Calculus.compute(thirdDerivativeXXX));
-        }
-
-        FunctionExpression thirdDerivativeYYY=null;
-        if(secondDerivativeYY!=null) thirdDerivativeYYY=Calculus.computeDerivative("y", secondDerivativeYY);
-        if(thirdDerivativeYYY!=null){
-            thirdDerivativeYYY=FunctionExpression.simplifyExpression(thirdDerivativeYYY);
-            //f.printByLevel();
-            System.out.println("\nThird derivative d(d(d/dy)/dy)/dy\n"+Calculus.compute(thirdDerivativeYYY));
-        }
+        return "Your derivative does not exist.";
     }
+  
 
-    public static FunctionExpression equationExample7(){
-        ArrayList<Double> startPoint=new ArrayList<Double>();
-        ArrayList<String> variables=new ArrayList<String>();
-        startPoint.add(18.0);
-        variables.add("x");
-        startPoint.add(25.0);
-        variables.add("y");
-        Calculus.setVariables(variables);
-        FunctionExpression f=FunctionExpression.exp(new Function("y","y",0),3.0);
-        //f=FunctionExpression.product(f, new Function("x", "x", 0));
-        FunctionExpression f2=FunctionExpression.exp(new Function("x","x",0),3.0);
-        //f2=FunctionExpression.product(f2, new Function("y", "y", 0));
-        FunctionExpression f3=FunctionExpression.product(new Function("y","y",0), new Function("x","x",0));
-        f=FunctionExpression.sum(f, f2);
-        f=FunctionExpression.sum(f, f3);
-        //f.printByLevel();
-        return f;
-    }
 
-    public static FunctionExpression equationExample8(){
-        FunctionExpression temp =FunctionExpression.div(equationExample7(), FunctionExpression.exp(new Function("x","x",0),3.0));
-        return FunctionExpression.div(temp,equationExample1());
-    }
-    public static void main(String[] args){
-        FunctionExpression q = FunctionExpression.exp(new Function("x", "x", 0), 2);
-        derivativeExample(q);
-        
-    }
 }
