@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Commands;
 
 import java.util.ArrayList;
@@ -212,7 +207,13 @@ public class Calculus {
             case '+': return x.evaluate() + y.evaluate();
             case '-': return x.evaluate() - y.evaluate();
             case '*': return x.evaluate() * y.evaluate();
-            case '/': return x.evaluate()/y.evaluate();
+            case '/': 
+                if(y.evaluate() != 0.0)
+                    return x.evaluate()/y.evaluate();
+                else if(y.evaluate() == 0.0 && x.evaluate() < 0)
+                    return Double.NEGATIVE_INFINITY;
+                else if(y.evaluate() == 0.0 && x.evaluate() > 0)
+                    return Double.POSITIVE_INFINITY;
             case '^': return Math.pow(x.evaluate(), y.evaluate());
         }
         return 0;
