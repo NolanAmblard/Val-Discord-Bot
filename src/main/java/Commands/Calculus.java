@@ -78,6 +78,13 @@ public class Calculus {
     public static FunctionExpression computeDerivative(String wrt, FunctionExpression funcExp) {
         if(funcExp == null)
             return null;
+        int n = 0;
+        for(int i = 0; i < variables.size(); i++) {
+            if(!(wrt.equals(variables.get(i))))
+                n++;
+        }
+        if(n == variables.size())
+            return new FunctionExpression(new Function("const", "/", 0.0));
         FunctionExpression output = null;
         if(funcExp.function.expression.equals("+") || funcExp.function.expression.equals("-")) {
             FunctionExpression temp = new FunctionExpression(new Function(new String(funcExp.function.expression)));
