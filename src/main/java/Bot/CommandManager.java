@@ -27,7 +27,6 @@ public class CommandManager {
         addCommand(new Kinematics());
         addCommand(new MuteVoice());
         addCommand(new ServerInfo());
-        addCommand(new Unban());
         addCommand(new UnmuteVoice());
         addCommand(new Mute());
         addCommand(new Unmute());
