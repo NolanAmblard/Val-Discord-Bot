@@ -146,7 +146,7 @@ public class Calculus {
         else if(funcExp.function.expression.equals("^")) {
             if(funcExp.right.function.expression.equals("const")) {
                 if(funcExp.right.function.value == 0)
-                    return new FunctionExpression(new Function("const", "/", 0.0));
+                    return null;
                 FunctionExpression muliEx = FunctionExpression.exp(funcExp.left.copy(), new Function("const", "/", funcExp.right.function.value - 1));
                 FunctionExpression exp = FunctionExpression.product(muliEx, new Function("const", "/", funcExp.right.function.value));
                 FunctionExpression f = computeDerivative(wrt, funcExp.left);
@@ -208,7 +208,7 @@ public class Calculus {
             else {
                 Function x = stack.pop();
                 Function y = stack.pop();
-                stack.push(new Function("const", "/", compute(funcExp.function.expression, x, y)));
+                stack.push(new Function("const", "/", compute(funcExp.function.expression, y, x)));
             }
         }
     }
