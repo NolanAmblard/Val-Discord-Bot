@@ -79,7 +79,7 @@ public class CalculusRunner implements Commands {
                 result = result.product(left, right);
                 break;
             case '/':
-                result = result.product(left, FunctionExpression.exp(right, -1.0));
+                result = result.div(left, right);
                 break;
             case '+':
                 result = result.sum(left, right);
