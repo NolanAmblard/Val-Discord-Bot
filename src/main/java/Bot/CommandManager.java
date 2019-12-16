@@ -13,6 +13,7 @@ public class CommandManager {
 
     CommandManager() {
 
+        //Class TEK #5
         //Lawrence Zhang
         addCommand(new Calculate());
         addCommand(new SetTimer());
@@ -23,6 +24,7 @@ public class CommandManager {
         addCommand(new CalculusRunner());
     }
 
+    //Class TEK #3
     //Add Command method which adds a command to the commands map
     private void addCommand(Commands command) {
         if (!commands.containsKey(command.getKeyword().toLowerCase())) {
@@ -30,18 +32,21 @@ public class CommandManager {
         }
     }
 
+    //Class TEK #3
     //Get Commands method which gets all values of the commands map
     //Not in use right now
     public Collection<Commands> getCommands() {
         return commands.values();
     }
 
+    //Class TEK #3
     //Get Command method which gets the requested String command
     //Not in use right now
     public Commands getCommand(@NotNull String command) {
         return commands.get(command);
     }
 
+    //Class TEK #4
     //Run Command method for running a command when the keyword for the command is called
     void runCommand(MessageReceivedEvent event) {
 
@@ -59,6 +64,8 @@ public class CommandManager {
             List<String> args = Arrays.asList(split).subList(1, split.length);
 
             event.getChannel().sendTyping().queue();
+
+            //Class TEK #6
             commands.get(keyword).execute(args, event);
         }
     }
