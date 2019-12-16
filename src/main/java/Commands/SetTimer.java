@@ -10,6 +10,7 @@ import java.util.*;
 
 public class SetTimer implements Commands {
 
+    //Class TEK #1
     private int currentTime;
 
     //Execution of the message
@@ -65,13 +66,16 @@ public class SetTimer implements Commands {
 
                 startTime = getTotalTime(currentTimes);
                 endTime = startTime + getTotalTime(userTimes);
-                currentTime = endTime - startTime;
+
+                //Class TEK #7
+                setCurrentTime(endTime - startTime);
 
                 //Troubleshooting
 //                System.out.println(startTime);
 //                System.out.println(endTime);
 //                System.out.println(currentTime);
 
+                //Class TEK #6
                 String timer = createTimer(author, channel, val, startTime, endTime);
 
                 if (timer.equalsIgnoreCase("start")) {
@@ -155,11 +159,14 @@ public class SetTimer implements Commands {
                 temp = userTimes.toArray(temp);
 
                 endTime = startTime + getTotalTime(temp);
-                currentTime = endTime - startTime;
+
+                //Class TEK #7
+                setCurrentTime(endTime - startTime);
 
                 //Troubleshooting
                 System.out.println("" + (endTime - startTime));
 
+                //Class TEK #6
                 String timer = createTimer(author, channel, val, startTime, endTime);
 
                 if (timer.equalsIgnoreCase("start")) {
@@ -181,17 +188,28 @@ public class SetTimer implements Commands {
         return "SetTimer";
     }
 
+    //Class TEK #3
+    public void setCurrentTime(int currentTime) {
+        this.currentTime = currentTime;
+    }
+
+    //Class TEK #3
+    public int getCurrentTime() {
+        return currentTime;
+    }
+
     private String createTimer(User author, MessageChannel channel, User self, int startTime, int endTime) throws InterruptedException {
 
         for (int i = endTime; i >= startTime; i--) {
             currentTime = i - startTime;
 
             //Troubleshooting
-            System.out.println(currentTime);
+            System.out.println(getCurrentTime());
 
             Thread.sleep(1000);
 
             if (i == endTime) {
+                //Class TEK #9
                 channel.sendMessage(convertTimeToString(currentTime)).queue();
             }
             else if (i < endTime) {
