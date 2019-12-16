@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+//Based on Noah Liu's Discord Bot for implementation of commands and getting user input for ease of use
 public class Listener extends ListenerAdapter {
 
     private CommandManager cm;

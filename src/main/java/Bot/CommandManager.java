@@ -7,6 +7,7 @@ import Commands.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jetbrains.annotations.NotNull;
 
+//Based on Noah Liu's Discord Bot for implementation of commands and getting user input for ease of use
 public class CommandManager {
 
     private Map<String, Commands> commands = new HashMap<>();
