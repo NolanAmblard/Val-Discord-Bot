@@ -10,6 +10,8 @@ import java.util.*;
 
 public class SetTimer implements Commands {
 
+    private int currentTime;
+
     //Execution of the message
     @Override
     public void execute(List<String> args, MessageReceivedEvent event) {
@@ -63,6 +65,7 @@ public class SetTimer implements Commands {
 
                 startTime = getTotalTime(currentTimes);
                 endTime = startTime + getTotalTime(userTimes);
+                currentTime = endTime - startTime;
 
                 //Troubleshooting
 //                System.out.println(startTime);
@@ -152,6 +155,7 @@ public class SetTimer implements Commands {
                 temp = userTimes.toArray(temp);
 
                 endTime = startTime + getTotalTime(temp);
+                currentTime = endTime - startTime;
 
                 //Troubleshooting
                 System.out.println("" + (endTime - startTime));
@@ -178,9 +182,7 @@ public class SetTimer implements Commands {
     }
 
     private String createTimer(User author, MessageChannel channel, User self, int startTime, int endTime) throws InterruptedException {
-        
-        int currentTime;
-        
+
         for (int i = endTime; i >= startTime; i--) {
             currentTime = i - startTime;
 
