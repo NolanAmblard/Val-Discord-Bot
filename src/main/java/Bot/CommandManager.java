@@ -21,6 +21,15 @@ public class CommandManager {
         //Nolan Amblard
         addCommand(new Help());
         addCommand(new UserInfo());
+        addCommand(new Ban());
+        addCommand(new Clear());
+        addCommand(new Kick());
+        addCommand(new Kinematics());
+        addCommand(new MuteVoice());
+        addCommand(new ServerInfo());
+        addCommand(new UnmuteVoice());
+        addCommand(new Mute());
+        addCommand(new Unmute());
         //Raunakk Chandhoke
         addCommand(new CalculusRunner());
     }

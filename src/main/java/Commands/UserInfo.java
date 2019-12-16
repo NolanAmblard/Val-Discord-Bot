@@ -19,6 +19,7 @@ public class UserInfo implements Commands {
         Date date = new Date();
         try {
             if(message.length == 1) {
+                //returns info about the person who sent the message
                 String userName = event.getMessage().getAuthor().getName();
 
                 User user = event.getMessage().getMember().getUser();
@@ -33,16 +34,17 @@ public class UserInfo implements Commands {
                 ae1.setColor(Color.CYAN);
                 event.getChannel().sendMessage(ae1.build()).queue();
             }
-            else if(message.length == 2 && message[1].charAt(0) == '@'){
-                String userName = message[1];
-                User user = event.getGuild().getMemberByTag(userName).getUser();
+            else if(message.length == 2){
+                //returns info about the person mentioned in the message
+                User user = event.getMessage().getMentionedUsers().get(0);
+                String userName = event.getGuild().getMember(event.getMessage().getMentionedUsers().get(0)).getEffectiveName();
                 String avatar = user.getAvatarUrl();
                 EmbedBuilder ae2 = new EmbedBuilder();
 
-                ae2.setTitle(event.getGuild().getMemberByTag(userName).getNickname() + "'s Profile");
+                ae2.setTitle(userName + "'s Profile");
                 ae2.setThumbnail(avatar);
-                ae2.addField("User name: ", userName, true);
-                ae2.addField("Online Status: ", event.getGuild().getMemberByTag(userName).getOnlineStatus().toString(), true);
+                ae2.addField("User name: ", event.getMessage().getMentionedUsers().get(0).getName(), true);
+                ae2.addField("Online Status: ", event.getGuild().getMember(user).getOnlineStatus().toString(), true);
                 ae2.setFooter("Request was made at " + formatter.format(date), event.getGuild().getIconUrl());
                 ae2.setColor(Color.CYAN);
                 event.getChannel().sendMessage(ae2.build()).queue();
