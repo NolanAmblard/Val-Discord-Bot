@@ -12,6 +12,7 @@ import java.util.*;
 
 public class Calculate implements Commands {
 
+    //Class TEK #4
     //Execution of the message
     @Override
     public void execute(List<String> args, MessageReceivedEvent event) {
@@ -29,6 +30,7 @@ public class Calculate implements Commands {
             if (content.length == 2) {
                 String expression = content[1];
 
+                //Class TEK #6
                 channel.sendMessage("" + expressionSolver(channel, val, expression)).queue();
             }
 
@@ -41,6 +43,7 @@ public class Calculate implements Commands {
                     expression.append(content[i]);
                 }
 
+                //Class TEK #6
                 channel.sendMessage("" + expressionSolver(channel, val, expression.toString())).queue();
             }
         }
