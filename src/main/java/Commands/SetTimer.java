@@ -203,6 +203,7 @@ public class SetTimer implements Commands {
         for (int i = endTime; i >= startTime; i--) {
             currentTime = i - startTime;
 
+            //Class TEK #8
             //Troubleshooting
             System.out.println(getCurrentTime());
 
