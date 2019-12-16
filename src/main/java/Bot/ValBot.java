@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 
+//Based on Noah Liu's Discord Bot for implementation of commands and getting user input for ease of use
 public class ValBot extends ListenerAdapter {
 
     private ValBot() {
