@@ -122,7 +122,10 @@ public class Mute implements Commands {
             public void run()
             {
                 counter++;
-                target.getGuild().addRoleToMember(target, muted).queue();
+                if (counter == 1) {
+                    target.getGuild().addRoleToMember(target, muted).queue();
+                }
+                
                 if (counter == 2) {
                     target.getGuild().removeRoleFromMember(target, muted).queue();
                     this.cancel();
