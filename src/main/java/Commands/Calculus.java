@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Commands;
 
 import java.util.ArrayList;
@@ -88,8 +93,8 @@ public class Calculus {
         FunctionExpression output = null;
         if(funcExp.function.expression.equals("+") || funcExp.function.expression.equals("-")) {
             FunctionExpression temp = new FunctionExpression(new Function(new String(funcExp.function.expression)));
-            FunctionExpression derivLeft = computeDerivative(wrt, funcExp.left);
-            FunctionExpression derivRight = computeDerivative(wrt, funcExp.right);
+            FunctionExpression derivLeft = computeDerivative(wrt, FunctionExpression.simplifyExpression(funcExp.left));
+            FunctionExpression derivRight = computeDerivative(wrt, FunctionExpression.simplifyExpression(funcExp.right));
             if(derivLeft != null)
                 temp.addLeft(derivLeft);
             if(derivRight != null)
@@ -103,13 +108,13 @@ public class Calculus {
             output = temp;
         }
         else if(funcExp.function.expression.equals("/"))
-            output = computeDerivative(wrt, FunctionExpression.product(funcExp.left, FunctionExpression.exp(funcExp.right, -1)));
+            output = computeDerivative(wrt, FunctionExpression.simplifyExpression(FunctionExpression.product(funcExp.left, FunctionExpression.exp(funcExp.right, -1))));
         else if(funcExp.function.expression.equals("*")) {
             FunctionExpression temp1 = new FunctionExpression(new Function("+"));
             FunctionExpression tempPart1 = new FunctionExpression(new Function("*"));
             FunctionExpression tempPart2 = new FunctionExpression(new Function("*"));
-            FunctionExpression derivLeft = computeDerivative(wrt, funcExp.left);
-            FunctionExpression derivRight = computeDerivative(wrt, funcExp.right);
+            FunctionExpression derivLeft = computeDerivative(wrt, FunctionExpression.simplifyExpression(funcExp.left));
+            FunctionExpression derivRight = computeDerivative(wrt, FunctionExpression.simplifyExpression(funcExp.right));
             FunctionExpression copyLeft = null;
             FunctionExpression copyRight = null;
             if(funcExp.left != null)
@@ -215,11 +220,11 @@ public class Calculus {
             case '-': return x.evaluate() - y.evaluate();
             case '*': return x.evaluate() * y.evaluate();
             case '/': 
-                if(y.evaluate() != 0.0)
+                if(!(isZero(y.evaluate(), 0.0000001)))
                     return x.evaluate()/y.evaluate();
-                else if(y.evaluate() == 0.0 && x.evaluate() < 0)
+                else if(isZero(y.evaluate(), 0.0000001) && x.evaluate() < 0)
                     return Double.NEGATIVE_INFINITY;
-                else if(y.evaluate() == 0.0 && x.evaluate() > 0)
+                else if(isZero(y.evaluate(), 0.0000001) && x.evaluate() > 0)
                     return Double.POSITIVE_INFINITY;
             case '^': return Math.pow(x.evaluate(), y.evaluate());
         }
@@ -262,5 +267,9 @@ public class Calculus {
                 return true;
         }
         return false;
+    }
+    
+    public static boolean isZero(double value, double threshold) {
+        return value >= -threshold && value <= threshold;
     }
 }
