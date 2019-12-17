@@ -17,13 +17,13 @@ public class Help implements Commands {
         eb.addField("-ban @member [optional reason]", "This command bans a user from the server.", false);
         eb.addField("-kick @member [optional reason]", "This command kicks a user from the server.", false);
         eb.addField("-clear (number messages)", "This command clears 'n' number of messages from a channel.", false);
-        eb.addField("-mute @member [optional reason]", "This command mutes a user.", false);
+        eb.addField("-mute @member [optional duration] [optional reason]", "This command mutes a user for a specified time and reason.", false);
         eb.addField("-unmute @member", "This command unmutes a user.", false);
         eb.addField("-clear (number messages)", "This command clears 'n' number of messages from a channel.", false);
         eb.addField("-serverinfo", "This command sends information about the server to a channel.", false);
-        eb.addField("-userinfo (@member)", "This command sends information about the user to a channel.", false);
+        eb.addField("-userinfo [optional @member]", "This command sends information about the user to a channel.", false);
         eb.addField("-unmutevoice @member", "This command unmutes a user in all voice channels.", false);
-        eb.addField("-kinematics x x x x x", "This command does kinematics for the user.", false);
+        eb.addField("-kinematics x v0 v a t", "This command does kinematics for the user. Format: -kinematics [displacement] [initial velocity] [final velocity] [acceleration] [time]", false);
         eb.setColor(Color.CYAN);
         event.getChannel().sendMessage(eb.build()).queue();
         eb.clearFields();
