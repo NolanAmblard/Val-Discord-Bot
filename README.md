@@ -13,10 +13,11 @@ Repository for the Val Discord Bot
 * Timer
   * Given specified hours, minutes, and/or seconds, begins a timer that counts down in the chat
   * Can be paused, started, or canceled
-  * All further commands are queued until the timer runs out
+  * All further commands are queued until the timer runs out or is ended
 * Supports basic Discord commands
   * Help (Lists Commands)
-  * Mute/Deafen Users
+  * Mute/Deafen Users in a Voice Channel
+  * Mute Users in a Text Channel
   * Ban/Kick Users
   * Server Info
   * User Info
