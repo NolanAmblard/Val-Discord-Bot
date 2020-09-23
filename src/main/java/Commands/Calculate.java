@@ -205,9 +205,9 @@ public class Calculate implements Commands {
 
                     String message = null;
 
-                    for (int j = 0; j < messages.size(); j++) {
-                        if (messages.get(j).getAuthor().getId().equalsIgnoreCase(self.getId())) {
-                            String messageRaw = history.getMessageById(messages.get(j).getId()).toString();
+                    for (Message value : messages) {
+                        if (value.getAuthor().getId().equalsIgnoreCase(self.getId())) {
+                            String messageRaw = history.getMessageById(value.getId()).toString();
 
                             message = messageRaw.substring(messageRaw.indexOf(":", 2) + 1, messageRaw.lastIndexOf("("));
 
