@@ -15,4 +15,5 @@ repositories {
 dependencies {
     implementation 'net.dv8tion:JDA:4.0.0_56'
     implementation 'org.jsoup:jsoup:1.13.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
 }
