@@ -17,9 +17,10 @@ public class CommandManager {
         //Class TEK #5
         //Lawrence Zhang
         addCommand(new Calculate());
-        addCommand(new SetTimer());
-        addCommand(new WordDictionary());
         addCommand(new GoogleSearch());
+        addCommand(new SetTimer());
+        addCommand(new UnitConverter());
+        addCommand(new WordDictionary());
         //Nolan Amblard
         addCommand(new Help());
         addCommand(new UserInfo());

@@ -24,12 +24,17 @@ public class Clear implements Commands {
             String numdel = message[1];
             TextChannel target = event.getTextChannel();
 
-            MessageHistory history = new MessageHistory(target);
-            List<Message> msgs;
+            try {
+                MessageHistory history = new MessageHistory(target);
+                List<Message> msgs;
 
-            msgs = history.retrievePast(Integer.parseInt(numdel)).complete();
-            target.deleteMessages(msgs).queue();
-            event.getChannel().sendMessage(numdel + " messages have been cleared.").queue();
+                msgs = history.retrievePast(Integer.parseInt(numdel)).complete();
+                target.deleteMessages(msgs).queue();
+                event.getChannel().sendMessage(numdel + " messages have been cleared.").queue();
+            }
+            catch (IllegalArgumentException e) {
+                event.getChannel().sendMessage("You must provide at least 2 or at most 100 messages to be deleted.").queue();
+            }
         }
     }
 

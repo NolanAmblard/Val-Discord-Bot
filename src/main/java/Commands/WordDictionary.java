@@ -16,6 +16,8 @@ import java.util.List;
 
 public class WordDictionary implements Commands {
 
+    private static final String[] languages = new String[] {"en", "hi", "es", "fr", "ja", "ru", "de", "it", "ko", "pt-BR", "ar", "tr"};
+
     static class Word {
         private String definition;
         private String word;
@@ -28,6 +30,8 @@ public class WordDictionary implements Commands {
             static class Definition {
                 private String definition;
                 private String example;
+                private String[] synonyms;
+                private String[] antonyms;
             }
         }
     }
@@ -41,7 +45,15 @@ public class WordDictionary implements Commands {
         EmbedBuilder embedBuilder = new EmbedBuilder();
 
         try {
-            String request = Jsoup.connect("https://api.dictionaryapi.dev/api/v2/entries/en/" + URLEncoder.encode(content, "UTF-8")).userAgent("Chrome").ignoreContentType(true).execute().body();
+            String request;
+            if (content.contains(";")) {
+                String language = content.substring(content.indexOf(";") + 1).replaceAll("\\s", "");
+                content = content.substring(0, content.indexOf(";"));
+                request = Jsoup.connect("https://api.dictionaryapi.dev/api/v2/entries/" + language + "/" + URLEncoder.encode(content, "UTF-8")).userAgent("Chrome").ignoreContentType(true).execute().body();
+            }
+            else {
+                request = Jsoup.connect("https://api.dictionaryapi.dev/api/v2/entries/en/" + URLEncoder.encode(content, "UTF-8")).userAgent("Chrome").ignoreContentType(true).execute().body();
+            }
             request = request.substring(1, request.length() - 1);
             Word word = new Gson().fromJson(request, Word.class);
 
@@ -56,6 +68,26 @@ public class WordDictionary implements Commands {
 
                     if (word.meanings[i].definitions[j].example != null) {
                         stringBuilder.append("\"").append(word.meanings[i].definitions[j].example).append("\"");
+                    }
+
+                    if (word.meanings[i].definitions[j].synonyms != null && word.meanings[i].definitions[j].synonyms.length != 0) {
+                        stringBuilder.append("\nSynonyms: ");
+                        for (int k = 0; k < word.meanings[i].definitions[j].synonyms.length; k++) {
+                            stringBuilder.append(word.meanings[i].definitions[j].synonyms[k]);
+                            if (k != word.meanings[i].definitions[j].synonyms.length - 1) {
+                                stringBuilder.append(", ");
+                            }
+                        }
+                    }
+
+                    if (word.meanings[i].definitions[j].antonyms != null && word.meanings[i].definitions[j].antonyms.length != 0) {
+                        stringBuilder.append("\nAntonyms: ");
+                        for (int k = 0; k < word.meanings[i].definitions[j].antonyms.length; k++) {
+                            stringBuilder.append(word.meanings[i].definitions[j].antonyms[k]);
+                            if (k != word.meanings[i].definitions[j].antonyms.length - 1) {
+                                stringBuilder.append(", ");
+                            }
+                        }
                     }
 
                     if (j != word.meanings[i].definitions.length - 1) {
