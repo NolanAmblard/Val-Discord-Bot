@@ -28,7 +28,7 @@ public class Help implements Commands {
         event.getChannel().sendMessage(eb.build()).queue();
         eb.clearFields();
         eb.setTitle("User Commands");
-        eb.addField("-userinfo [optional @member] (no @member = info about person who sent it)", "This command returns info about the user.", false);
+        eb.addField("-userinfo [optional @member]", "This command returns info about a user. If no user is specified, it will return info on the user who sent the query.", false);
         eb.setColor(Color.CYAN);
         event.getChannel().sendMessage(eb.build()).queue();
 
@@ -37,12 +37,15 @@ public class Help implements Commands {
         eb.setTitle("Math Commands");
         eb.addField("-calculate (operation)", "This command calculates what an expression evaluates out to be.", false);
         eb.addField("-derivative (function); (x-value) (variable differentiating with respect to)", "This command calculates the derivative of a function evaluated at a specific point.", false);
+        eb.addField("-convert [unit one] to [unit two]", "This command converts from one unit to another. Currently supported conversions are time and length units.", false);
         eb.setColor(Color.CYAN);
         event.getChannel().sendMessage(eb.build()).queue();
 
         eb.clearFields();
         eb.setTitle("Misc. Commands");
+        eb.addField("-define [word or phrase]", "This command defines a word or phrase, providing part of speech, definitions, examples, and synonyms and antonyms if possible.", false);
         eb.addField("-setTimer [time]", "This command sets a timer.", false);
+        eb.addField("-search [input]", "This command performs a Google Search and returns the top 5 results of the query.", false);
         eb.setColor(Color.CYAN);
         event.getChannel().sendMessage(eb.build()).queue();
     }
