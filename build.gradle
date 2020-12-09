@@ -1,11 +1,18 @@
 plugins {
-    id 'java'
+//    id 'java'
+    id 'application'
+    id'com.github.johnrengelman.shadow' version '5.2.0'
 }
+
+mainClassName = 'Bot.ValBot'
 
 group 'Lawrence.Zhang'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
+
+version '1.0'
+def jdaVersion = 'JDA:4.2.0_222'
 
 repositories {
     mavenCentral()
@@ -13,7 +20,9 @@ repositories {
 }
 
 dependencies {
-    implementation 'net.dv8tion:JDA:4.0.0_56'
+    implementation "net.dv8tion:$jdaVersion"
     implementation 'org.jsoup:jsoup:1.13.1'
     implementation 'com.google.code.gson:gson:2.8.6'
 }
+
+compileJava.options.encoding = 'UTF-8'
