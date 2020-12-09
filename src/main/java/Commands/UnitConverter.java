@@ -64,9 +64,9 @@ public class UnitConverter implements Commands {
         DAY (8.64e13, "DAY", "DAYS", "D"),
         WEEK (6.048e14, "WEEK", "WEEKS", "WK"),
         MONTH (2.628e15, "MONTH", "MONTHS", "MON"),
-        YEAR (3.154e16, "YEAR", "YEARS", "YR"),
-        DECADE (3.154e17, "DECADE", "DECADES", "DEC"),
-        CENTURY (3.154e18, "CENTURY", "CENTURIES", "CENT");
+        YEAR (3.1536e16, "YEAR", "YEARS", "YR"),
+        DECADE (3.1536e17, "DECADE", "DECADES", "DEC"),
+        CENTURY (3.1536e18, "CENTURY", "CENTURIES", "CENT");
 
         private final double nanoseconds;
         private final String singular;
@@ -188,6 +188,6 @@ public class UnitConverter implements Commands {
 
     @Override
     public String getKeyword() {
-        return "convert";
+        return "Convert";
     }
 }
