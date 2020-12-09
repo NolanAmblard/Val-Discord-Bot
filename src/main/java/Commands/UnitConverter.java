@@ -1,3 +1,4 @@
+//Lawrence Zhang
 package Commands;
 
 import Bot.Commands;
@@ -102,16 +103,32 @@ public class UnitConverter implements Commands {
         String[] content = m.getContentRaw().toLowerCase().split(" ");
         MessageChannel channel = event.getChannel();
 
-        //e.g. "-convert 2 km to ft
-
-        double input = Double.parseDouble(content[1]);
-        String unitOne = content[2].toUpperCase(), unitTwo = content[4].toUpperCase();
-
-        if (input < 0) {
-            channel.sendMessage("Sorry, I can't convert negative values.").queue();
-            return;
-        }
         try {
+
+            double input;
+            String unitOne, unitTwo;
+
+            //If no input is included
+            //e.g. "convert in to m"
+            if (content.length == 4) {
+                input = 1;
+                unitOne = content[1].toUpperCase();
+                unitTwo = content[3].toUpperCase();
+            }
+
+            //Standard Usage
+            //e.g. "-convert 2 km to ft"
+            else {
+                input = Double.parseDouble(content[1]);
+                unitOne = content[2].toUpperCase();
+                unitTwo = content[4].toUpperCase();
+            }
+
+            if (input < 0) {
+                channel.sendMessage("Sorry, I can't convert negative values.").queue();
+                return;
+            }
+
             StringBuilder stringBuilder = new StringBuilder();
 
             double conversion;
