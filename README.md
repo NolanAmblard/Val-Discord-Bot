@@ -1,5 +1,7 @@
 # ValDiscordBot
-Repository for the Val Discord Bot
+Repository for the Val Discord Bot.
+
+My contributions can be found in: Val-Discord-Bot/src/main/java/Commands/
 
 - - - -
 
